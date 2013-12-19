@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="lucene-memory-4.6.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/lucene-memory-4.6.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

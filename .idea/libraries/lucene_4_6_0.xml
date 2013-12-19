@@ -1,0 +1,25 @@
+<component name="libraryTable">
+  <library name="lucene-4.6.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/lucene-analyzers-common-4.6.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/lucene-analyzers-icu-4.6.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/lucene-analyzers-smartcn-4.6.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/lucene-classification-4.6.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/lucene-codecs-4.6.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/lucene-core-4.6.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/icu4j-49.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/asm-commons-4.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/asm-4.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/lucene-expressions-4.6.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/lucene-facet-4.6.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/lucene-grouping-4.6.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/lucene-highlighter-4.6.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/lucene-join-4.6.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/lucene-misc-4.6.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/lucene-queries-4.6.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/lucene-queryparser-4.6.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
