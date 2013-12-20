@@ -80,6 +80,7 @@ public class ApiServlet extends HttpServlet {
         }else{
             ErrorMessage(pw);
         }
+        pw.close();
     }
 
     private static void ErrorMessage(PrintWriter pw){

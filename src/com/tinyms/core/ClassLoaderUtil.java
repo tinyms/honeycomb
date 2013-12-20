@@ -15,14 +15,19 @@ public class ClassLoaderUtil {
     private Logger Log = Logger.getAnonymousLogger();
 
     private static Map<String, Object> apiObjectPool = new HashMap<String, Object>();
+    private static Map<String, IWebView> routeObjectPool = new HashMap<String, IWebView>();
 
     public static Object getApiObject(String key){
         return apiObjectPool.get(key);
     }
 
+    public static IWebView getRouteObject(String key){
+        return routeObjectPool.get(key);
+    }
+
     public static void loadAnnotationPresentObjects(){
         apiObjectPool.clear();
-        Set<Class<?>> classes = getClasses("com.tinyms.api", true);
+        Set<Class<?>> classes = getClasses("com.tinyms", true);
         for(Class cls : classes){
             if(cls.isAnnotationPresent(Api.class)){
                 Api api = (Api) cls.getAnnotation(Api.class);
@@ -30,6 +35,21 @@ public class ClassLoaderUtil {
                 try {
                     //if key exists, throw exception????
                     apiObjectPool.put(key, cls.newInstance());
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }else if(cls.isAnnotationPresent(Route.class)){
+                Route route = (Route) cls.getAnnotation(Route.class);
+                String url = route.url();
+                if(url.equals("/")){
+                    url = "/index.html";
+                }else{
+                    url = url + ".html";
+                }
+                try {
+                    routeObjectPool.put(url,(IWebView)cls.newInstance());
                 } catch (InstantiationException e) {
                     e.printStackTrace();
                 } catch (IllegalAccessException e) {
