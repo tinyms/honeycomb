@@ -1,15 +1,15 @@
 package com.tinyms.view;
 
 import com.tinyms.core.HttpContext;
-import com.tinyms.core.IWebView;
 import com.tinyms.core.Route;
+import com.tinyms.core.WebView;
 
 /**
  * Created by tinyms on 13-12-20.
  */
-@Route(url = "/hi/123/kao")
-public class TestView implements IWebView {
-    @Override
+@WebView(name = "test")
+public class TestView {
+    @Route(name = "ftl")
     public void render(HttpContext context) {
         context.render("index.ftl",null);
     }

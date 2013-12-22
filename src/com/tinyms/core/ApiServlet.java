@@ -3,6 +3,7 @@ package com.tinyms.core;
 import com.google.gson.Gson;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -54,13 +56,14 @@ public class ApiServlet extends HttpServlet {
                     try {
                         //is cache??
                         Method m = target.getClass().getMethod(method, HttpContext.class);
-                        HttpContext context = new HttpContext();
-                        context.realpath = request.getServletContext().getRealPath("/");
-                        context.request = request;
-                        context.response = response;
-                        Object result = m.invoke(target, context);
-                        Gson json = new Gson();
-                        pw.println(json.toJson(result));
+                        if(m.getModifiers() == Modifier.PUBLIC){
+                            HttpContext context = new HttpContext();
+                            context.request = request;
+                            context.response = response;
+                            Object result = m.invoke(target, context);
+                            Gson json = new Gson();
+                            pw.println(json.toJson(result));
+                        }
                     } catch (NoSuchMethodException e) {
                         Log.warning("NoSuchMethodException");
                         ErrorMessage(pw);

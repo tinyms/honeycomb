@@ -15,7 +15,7 @@ public class HttpContext {
     private static Configuration freemarkerConfiguration = new Configuration();
     public HttpServletRequest request;
     public HttpServletResponse response;
-    public String realpath;
+    public static String realpath = "/";
     public void render(String tplPath,Object data){
         try {
             Template tpl = freemarkerConfiguration.getTemplate(tplPath, "utf-8");

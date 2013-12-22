@@ -16,6 +16,8 @@
           <element id="library" level="project" name="lucene-4.6.0" />
           <element id="library" level="project" name="lucene-memory-4.6.0" />
           <element id="library" level="project" name="mchange-commons-java-0.2.3.4" />
+          <element id="library" level="project" name="freemarker.2.3.20" />
+          <element id="library" level="project" name="jsoup-1.7.3" />
         </element>
       </element>
       <element id="module-output" name="ss" />

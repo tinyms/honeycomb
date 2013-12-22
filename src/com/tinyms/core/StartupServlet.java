@@ -19,10 +19,10 @@ public class StartupServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        String webRoot = config.getServletContext().getRealPath("/");
+        HttpContext.realpath = config.getServletContext().getRealPath("/");
         Configuration cfg = HttpContext.getFreemarkerConfiguration();
         try {
-            cfg.setDirectoryForTemplateLoading(new File(webRoot+"WEB-INF/templates"));
+            cfg.setDirectoryForTemplateLoading(new File(HttpContext.realpath+"WEB-INF/templates"));
             cfg.setObjectWrapper(new DefaultObjectWrapper());
         } catch (IOException e) {
             e.printStackTrace();

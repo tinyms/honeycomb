@@ -1,5 +1,6 @@
 package com.tinyms.core;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Logger;
 
 /**
@@ -15,6 +17,7 @@ import java.util.logging.Logger;
 @WebServlet(name = "WebViewServlet", urlPatterns = {"*.html"})
 public class WebViewServlet extends HttpServlet {
     private static Logger Log = Logger.getAnonymousLogger();
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.doView(request, response);
     }
@@ -32,13 +35,18 @@ public class WebViewServlet extends HttpServlet {
         if(path==null){
             path = "/index.html";
         }
-        IWebView view = ClassLoaderUtil.getRouteObject(path);
-        if(view!=null){
+        RouteTarget route = ClassLoaderUtil.getRouteObject(path);
+        if(route!=null){
             HttpContext context = new HttpContext();
-            context.realpath = request.getServletContext().getRealPath("/");
             context.request = request;
             context.response = response;
-            view.render(context);
+            try {
+                route.getMethod().invoke(route.getTarget(),context);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
         }else{
             pw.write("View not found.");
         }

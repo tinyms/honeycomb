@@ -1,8 +1,12 @@
 package com.tinyms.core;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -12,24 +16,25 @@ import java.util.jar.JarFile;
 import java.util.logging.Logger;
 
 public class ClassLoaderUtil {
-    private Logger Log = Logger.getAnonymousLogger();
+    private static Logger Log = Logger.getAnonymousLogger();
 
     private static Map<String, Object> apiObjectPool = new HashMap<String, Object>();
-    private static Map<String, IWebView> routeObjectPool = new HashMap<String, IWebView>();
+    private static Map<String, RouteTarget> routeObjectPool = new HashMap<String, RouteTarget>();
 
-    public static Object getApiObject(String key){
+    public static Object getApiObject(String key) {
         return apiObjectPool.get(key);
     }
 
-    public static IWebView getRouteObject(String key){
+    public static RouteTarget getRouteObject(String key) {
+        Log.warning(key);
         return routeObjectPool.get(key);
     }
 
-    public static void loadAnnotationPresentObjects(){
+    public static void loadAnnotationPresentObjects() {
         apiObjectPool.clear();
         Set<Class<?>> classes = getClasses("com.tinyms", true);
-        for(Class cls : classes){
-            if(cls.isAnnotationPresent(Api.class)){
+        for (Class cls : classes) {
+            if (cls.isAnnotationPresent(Api.class)) {
                 Api api = (Api) cls.getAnnotation(Api.class);
                 String key = api.name();
                 try {
@@ -40,24 +45,43 @@ public class ClassLoaderUtil {
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
-            }else if(cls.isAnnotationPresent(Route.class)){
-                Route route = (Route) cls.getAnnotation(Route.class);
-                String url = route.url();
-                if(url.equals("/")){
-                    url = "/index.html";
-                }else{
-                    url = url + ".html";
+            } else if (cls.isAnnotationPresent(WebView.class)) {
+                WebView view = (WebView) cls.getAnnotation(WebView.class);
+                String moduleName = view.name();
+                String moduleUrl = "";
+                if (StringUtils.isNotBlank(moduleName)) {
+                    moduleUrl = String.format("/%s", moduleName);
                 }
-                try {
-                    routeObjectPool.put(url,(IWebView)cls.newInstance());
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                Method[] methods = cls.getDeclaredMethods();
+                if (methods != null) {
+                    for (Method m : methods) {
+                        if (m.getModifiers() == Modifier.PUBLIC && m.isAnnotationPresent(Route.class)) {
+                            Route route = m.getAnnotation(Route.class);
+                            String name = route.name();
+                            String mappingUrl;
+                            if (StringUtils.isNotBlank(name)) {
+                                mappingUrl = String.format("/%s", name);
+                            } else {
+                                mappingUrl = String.format("/%s", m.getName());
+                            }
+
+                            RouteTarget target = new RouteTarget();
+                            try {
+                                target.setTarget(cls.newInstance());
+                            } catch (InstantiationException e) {
+                                e.printStackTrace();
+                            } catch (IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+                            target.setMethod(m);
+                            routeObjectPool.put(String.format("%s%s.html", moduleUrl, mappingUrl), target);
+                        }
+                    }
                 }
             }
         }
     }
+
     public static ClassLoader getStandardClassLoader() {
         return Thread.currentThread().getContextClassLoader();
     }

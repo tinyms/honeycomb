@@ -12,4 +12,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface Api {
     String name() default "";
+    boolean auth() default false;
 }

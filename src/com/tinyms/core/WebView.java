@@ -6,11 +6,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by tinyms on 13-12-20.
+ * Created by tinyms on 13-12-22.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface Route {
-    String name() default "/";
+@Target(ElementType.TYPE)
+public @interface WebView {
+    String name() default "";
     boolean auth() default false;
 }
