@@ -18,6 +18,7 @@
           <element id="library" level="project" name="mchange-commons-java-0.2.3.4" />
           <element id="library" level="project" name="freemarker.2.3.20" />
           <element id="library" level="project" name="jsoup-1.7.3" />
+          <element id="library" level="project" name="mysql-connector-java-5.1.27-bin" />
         </element>
       </element>
       <element id="module-output" name="ss" />

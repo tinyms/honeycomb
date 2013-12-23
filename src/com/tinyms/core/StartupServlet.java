@@ -3,6 +3,7 @@ package com.tinyms.core;
 import com.tinyms.app.Hospital;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -19,7 +20,11 @@ public class StartupServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        HttpContext.realpath = config.getServletContext().getRealPath("/");
+        String path = config.getServletContext().getRealPath("/");
+        if(!StringUtils.endsWith(path,"/")){
+            path = path + "/";
+        }
+        HttpContext.realpath = path;
         Configuration cfg = HttpContext.getFreemarkerConfiguration();
         try {
             cfg.setDirectoryForTemplateLoading(new File(HttpContext.realpath+"WEB-INF/templates"));

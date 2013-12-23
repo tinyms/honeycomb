@@ -2,26 +2,24 @@
     <default-config>
         <property name="user">sa</property>
         <property name="password">1</property>
-        <!--property name="driverClass">com.mysql.jdbc.Driver</property>
-        <property name="jdbcUrl">jdbc:mysql://localhost:3306/jdbc</property-->
         <property name="driverClass">net.sourceforge.jtds.jdbc.Driver</property>
         <property name="jdbcUrl">jdbc:jtds:sqlserver://localhost:1433;DatabaseName=gc_data</property>
 
         <property name="initialPoolSize">10</property>
         <property name="maxIdleTime">30</property>
-        <property name="maxPoolSize">100</property>
+        <property name="maxPoolSize">35</property>
         <property name="minPoolSize">10</property>
     </default-config>
 
     <named-config name="myApp">
         <property name="user">root</property>
-        <property name="password">java</property>
+        <property name="password">root</property>
         <property name="driverClass">com.mysql.jdbc.Driver</property>
         <property name="jdbcUrl">jdbc:mysql://localhost:3306/jdbc</property>
 
         <property name="initialPoolSize">10</property>
         <property name="maxIdleTime">30</property>
-        <property name="maxPoolSize">100</property>
+        <property name="maxPoolSize">35</property>
         <property name="minPoolSize">10</property>
     </named-config>
 </c3p0-config>
