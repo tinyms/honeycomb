@@ -23,6 +23,15 @@ import java.util.regex.Pattern;
 public class MatchParseThread implements Runnable {
     private static Logger Log = Logger.getAnonymousLogger();
     public static List<Match> matches = new ArrayList<Match>();
+    private String url;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     private static String findNum(String text) {
         Pattern pattern = Pattern.compile("\\d+");
@@ -48,6 +57,9 @@ public class MatchParseThread implements Runnable {
         Log.warning(url);
         List<List<String>> items = new ArrayList<List<String>>();
         matches.clear();
+        if(StringUtils.isBlank(url)){
+            return matches;
+        }
         try {
             Document doc = Jsoup.connect(url).get();
             Elements trs = doc.select("#livescore_table .tableborder tr");
@@ -83,6 +95,7 @@ public class MatchParseThread implements Runnable {
                         break;
                     }
                 }
+                m.setJf(parseJf(doc));
                 m.setSeason(item.get(0));
                 m.setId(Utils.parseInt(item.get(1), 0));
                 m.setMain(item.get(2));
@@ -99,8 +112,38 @@ public class MatchParseThread implements Runnable {
         return matches;
     }
 
+    private static List<List<String>> parseJf(Document doc){
+        List<List<String>> html = new ArrayList<List<String>>();
+        Elements trs = doc.select("#jflist tr.topjfbg");
+        for(Element tr : trs){
+            List<String> td_content = new ArrayList<String>();
+            Elements tds = tr.select("td");
+            for(Element td : tds){
+                td_content.add(td.html());
+            }
+            html.add(td_content);
+        }
+        return html;
+    }
+
+    public static void main(String[] args){
+        try {
+            Document doc = Jsoup.connect("http://www.okooo.com/soccer/match/608505/odds/").get();
+            Elements trs = doc.select("#jflist tr.topjfbg");
+            for(Element tr : trs){
+                List<String> td_content = new ArrayList<String>();
+                Elements tds = tr.select("td");
+                for(Element td : tds){
+                    td_content.add(td.html());
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void run() {
-        parse("http://www.okooo.com/livecenter/zucai/");
+        parse(this.getUrl());
     }
 }

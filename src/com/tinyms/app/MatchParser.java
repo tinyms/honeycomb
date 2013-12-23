@@ -14,7 +14,9 @@ import java.util.Map;
 public class MatchParser{
     private static Thread thread = null;
     public Object run(HttpContext context){
-        thread = new Thread(new MatchParseThread());
+        MatchParseThread t = new MatchParseThread();
+        t.setUrl(context.request.getParameter("url"));
+        thread = new Thread(t);
         thread.start();
         return "True";
     }

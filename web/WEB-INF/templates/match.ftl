@@ -4,10 +4,13 @@
     <meta charset="utf-8">
     <title>Match</title>
     <link rel="stylesheet" href="/resources/yui/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="/resources/yui/cssbutton/cssbutton.css">
     <style type="text/css">
         body{
             font-family: "微软雅黑";
             font-size: 14px;
+            margin: auto; /* center in viewport */
+            width: 960px;
         }
         .font_red{
             color: red;
@@ -17,6 +20,9 @@
         }
         .yui3-skin-sam .yui3-datatable tr.myhilite td {
             background-color: #C0ffc0;
+        }
+        .yui3-skin-sam .yui3-datatable tr.jfhilite td {
+            background-color: #FFFFCC;
         }
     </style>
     <script src="/resources/json2.js"></script>
@@ -29,6 +35,8 @@
         function get_results(){
             $.post("/api/com.tinyms.app.310win/get",{},function(data){
                 if(data.result.length>=14){
+                    dataset = [];
+                    $("#parse_btn").prop("disabled",false);
                     clearInterval(timer);
                     $.each(data.result,function(i,row){
                         dataset.push({
@@ -37,6 +45,7 @@
                             client:row.client,
                             score:row.score,
                             season:row.season,
+                            jf:row.jf,
                             data:eval(row.data)
                         });
 
@@ -47,11 +56,42 @@
 
             },"json");
         }
-        $(document).ready(function(){
-            $.post("/api/com.tinyms.app.310win/run",{"url":"http://www.okooo.com/zucai/13181/"},function(data){
+        function color_odds(start, end){
+            var home = parseFloat(start.home) - parseFloat(end.home);
+            var draw = parseFloat(start.draw) - parseFloat(end.draw);
+            var away = parseFloat(start.away) - parseFloat(end.away);
+            if(home>0){
+                end.home = '<span style="color: green">'+end.home+'</span>';
+            }else if(home<0){
+                end.home = '<span style="color: red">'+end.home+'</span>';
+            }
+            if(draw>0){
+                end.draw = '<span style="color: green">'+end.draw+'</span>';
+            }else if(draw<0){
+                end.draw = '<span style="color: red">'+end.draw+'</span>';
+            }
+            if(away>0){
+                end.away = '<span style="color: green">'+end.away+'</span>';
+            }else if(away<0){
+                end.away = '<span style="color: red">'+end.away+'</span>';
+            }
+        }
+        function color_row(chk){
+            if($(chk).prop("checked")){
+                $(chk).parent().parent().addClass("jfhilite");
+            }else{
+                $(chk).parent().parent().removeClass("jfhilite");
+            }
+        }
+        function startup_parse_thread(){
+            $.post("/api/com.tinyms.app.310win/run",{"url":$("#url").val()},function(data){
                 console.log(data);
+                $("#parse_btn").prop("disabled",true);
                 timer = setInterval(get_results, 5000);
             },"json");
+        }
+        $(document).ready(function(){
+
         });
         YUI().use("datatable", function (Y) {
 
@@ -69,15 +109,32 @@
                 columns : [
                     { key:'name', label:'名称'},
                     { key:'start', label:'初陪'},
-                    { key:'end', label:'终陪'}
+                    { key:'end', label:'终陪', allowHTML:true}
                 ],
                 data : [],
                 strings : {
-                    emptyMessage : "No critter characters were found!"
+                    emptyMessage : "No records were found!"
                 },
-                width: 350,
                 caption: '五家初陪终陪'
             }).render("#start_end");
+
+            var dt_jflist = new Y.DataTable({
+                columns : [
+                    {key:'select',allowHTML:true,label:"选",formatter: '<input type="checkbox" onclick="color_row(this);"/>'},
+                    { key:'order', label:'排名'},
+                    { key:'team', label:'球队'},
+                    { key:'battle', label:'赛'},
+                    { key:'home', label:'胜'},
+                    { key:'draw', label:'平'},
+                    { key:'away', label:'负'},
+                    { key:'score', label:'分'}
+                ],
+                data : [],
+                strings : {
+                    emptyMessage : "No records were found!"
+                },
+                caption: '积分榜'
+            }).render("#jf_list");
 
             simple.render("#matchs");
             simple.addAttr("selectedRow",{value:null});
@@ -103,6 +160,7 @@
                     Y.Array.each(rec.get("data"),function(item){
                         if(item.MakerID==14 || item.MakerID==82||item.MakerID==27
                                 ||item.MakerID==35||item.MakerID==84){
+                            color_odds(item.Start, item.End);
                             start_and_end_odds.push({
                                         name:item.CompanyName,
                                         start:item.Start.home+" "+item.Start.draw+" "+item.Start.away,
@@ -118,24 +176,37 @@
                     data: start_and_end_odds,
                     caption: '<strong>' + rec.get('main') + " "+rec.get("client")+'</strong>'
                 });
+                var jflist = [];
+                if(rec.get("jf")){
+                    Y.Array.each(rec.get("jf"),function(item){
+                        var jf = {};
+                        jf.order = item[0];
+                        jf.team = item[1];
+                        jf.battle = item[2];
+                        jf.home = item[3];
+                        jf.draw = item[4];
+                        jf.away = item[5];
+                        jf.score = item[6];
+                        jflist.push(jf);
+                    });
+                }
+                dt_jflist.setAttrs({
+                    data: jflist,
+                    caption: '<strong>' + rec.get('main') + " "+rec.get("client")+'</strong>'
+                });
             });
         });
     </script>
 </head>
 <body class="yui3-skin-sam">
-<input type="text" id="url"/>
-<div class="yui3-g yui3-u-3-4">
-    <div>
-        <div class="yui3-u-1-2"><div id="matchs"></div></div>
-        <div class="yui3-u-2-3"><div id="start_end"></div></div>
-    </div>
-    <div>
-        <div class="yui3-u-1-5">1</div>
-        <div class="yui3-u-1-5">2</div>
-        <div class="yui3-u-1-5">3</div>
-        <div class="yui3-u-1-5">4</div>
-        <div class="yui3-u-1-5">5</div>
-    </div>
+
+<div class="yui3-g">
+    <div class="yui3-u-1" style="margin: 25px;"><input type="text" id="url" style="width: 500px;" value="http://www.okooo.com/livecenter/zucai/"/>
+        <button class='yui3-button' onclick="startup_parse_thread();" id="parse_btn">分析</button></div>
+</div>
+<div class="yui3-g">
+    <div class="yui3-u-1-3"><div id="matchs"></div></div>
+    <div class="yui3-u-2-3"><div id="jf_list"></div><div id="start_end"></div></div>
 </div>
 </body>
 </html>

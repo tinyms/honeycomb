@@ -1,5 +1,7 @@
 package com.tinyms.app;
 
+import java.util.List;
+
 /**
  * Created by tinyms on 13-12-22.
  */
@@ -9,6 +11,7 @@ public class Match {
     private String main = "";
     private String client = "";
     private String score = "";
+    private List<List<String>> jf;
 
     public String getData() {
         return data;
@@ -58,5 +61,13 @@ public class Match {
 
     public void setScore(String score) {
         this.score = score;
+    }
+
+    public List<List<String>> getJf() {
+        return jf;
+    }
+
+    public void setJf(List<List<String>> jf) {
+        this.jf = jf;
     }
 }
