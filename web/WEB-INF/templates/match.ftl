@@ -10,12 +10,15 @@
             font-family: "微软雅黑";
             font-size: 14px;
             margin: auto; /* center in viewport */
-            width: 960px;
+            width: 1024px;
         }
         .font_red{
             color: red;
         }
         #matchs tbody tr{
+            cursor: pointer;
+        }
+        #start_end tbody tr{
             cursor: pointer;
         }
         .yui3-skin-sam .yui3-datatable tr.myhilite td {
@@ -28,6 +31,7 @@
     <script src="/resources/json2.js"></script>
     <script src="/resources/yui/yui/yui-min.js"></script>
     <script src="/resources/jquery-1.10.2.min.js"></script>
+    <script src="/resources/jquery.number.min.js"></script>
     <script type="text/javascript">
         var timer = null;
         var simple;
@@ -51,31 +55,50 @@
                         });
 
                     });
-                    //console.log(dataset);
+                    console.log(dataset);
                     simple.setAttrs({data:dataset});
                 }
 
             },"json");
         }
-        function color_odds(start, end){
+        function color_odds(start, end, item){
             var home = parseFloat(start.home) - parseFloat(end.home);
             var draw = parseFloat(start.draw) - parseFloat(end.draw);
             var away = parseFloat(start.away) - parseFloat(end.away);
+            var home_s = "";
+            var draw_s = "";
+            var away_s = "";
             if(home>0){
-                end.home = '<span style="color: green">'+end.home+'</span>';
+                end.home_ = '<span style="color: green">'+end.home+'</span>';
+                home_s = '-<span style="color: green">'+$.number(Math.abs(home),2)+'</span>';
             }else if(home<0){
-                end.home = '<span style="color: red">'+end.home+'</span>';
+                end.home_ = '<span style="color: red">'+end.home+'</span>';
+                home_s = '+<span style="color: red">'+$.number(Math.abs(home),2)+'</span>';
+            }else{
+                home_s = $.number(Math.abs(home),2);
+                end.home_ = end.home;
             }
             if(draw>0){
-                end.draw = '<span style="color: green">'+end.draw+'</span>';
+                end.draw_ = '<span style="color: green">'+end.draw+'</span>';
+                draw_s = '-<span style="color: green">'+$.number(Math.abs(draw),2)+'</span>';
             }else if(draw<0){
-                end.draw = '<span style="color: red">'+end.draw+'</span>';
+                end.draw_ = '<span style="color: red">'+end.draw+'</span>';
+                draw_s = '+<span style="color: red">'+$.number(Math.abs(draw),2)+'</span>';
+            }else{
+                draw_s = $.number(Math.abs(draw),2);
+                end.draw_ = end.draw;
             }
             if(away>0){
-                end.away = '<span style="color: green">'+end.away+'</span>';
+                end.away_ = '<span style="color: green">'+end.away+'</span>';
+                away_s = '-<span style="color: green">'+$.number(Math.abs(away),2)+'</span>';
             }else if(away<0){
-                end.away = '<span style="color: red">'+end.away+'</span>';
+                end.away_ = '<span style="color: red">'+end.away+'</span>';
+                away_s = '+<span style="color: red">'+$.number(Math.abs(away),2)+'</span>';
+            }else{
+                away_s = $.number(Math.abs(away),2);
+                end.away_ = end.away;
             }
+            item.Diff = home_s+" "+draw_s+" "+away_s;
         }
         function color_row(chk){
             if($(chk).prop("checked")){
@@ -111,8 +134,24 @@
                 timer = setInterval(get_results, 5000);
             },"json");
         }
+        function country(comId){
+            var countries = {};
+            countries["14"] = "英国";
+            countries["82"] = "英国";
+            countries["27"] = "英国";
+            countries["25"] = "意大利";
+            countries["94"] = "奥地利";
+            countries["65"] = "英国";
+            countries["35"] = "英国";
+            countries["159"] = "英国";
+            countries["84"] = "澳门";
+            countries["18"] = "德国";
+            countries["170"] = "瑞典";
+            countries["285"] = "荷兰";
+            return countries[comId];
+        }
         function include(no){
-            var makers = ["14","82","94","35","84","27","65","59","18"]
+            var makers = ["14","82","94","35","84","27","65","59","18","25","159","170","285"]
             for(var i=0;i<makers.length;i++){
                 if(no==makers[i]){
                     return true;
@@ -137,9 +176,12 @@
 
             var dt_start_end = new Y.DataTable({
                 columns : [
+                    { key:'id', label:'ID'},
                     { key:'name', label:'名称'},
                     { key:'start', label:'初陪'},
-                    { key:'end', label:'终陪', allowHTML:true}
+                    { key:'end', label:'终陪', allowHTML:true},
+                    { key:'diff', label:'变陪', allowHTML:true},
+                    { key:'last', label:'时间(次数)'}
                 ],
                 data : [],
                 strings : {
@@ -172,6 +214,10 @@
                 this.set("selectedRow", e.currentTarget);
             },'.yui3-datatable-data tr',simple);
 
+            dt_start_end.delegate("click",function(e){
+                $(e.currentTarget._node).toggleClass("myhilite");
+            },'.yui3-datatable-data tr',dt_start_end)
+
             simple.after('selectedRowChange', function (e) {
 
                 var tr = e.newVal,              // the Node for the TR clicked ...
@@ -191,11 +237,14 @@
                 if(rec.get("data")){
                     Y.Array.each(rec.get("data"),function(item){
                         if(include(item.MakerID)){
-                            color_odds(item.Start, item.End);
+                            color_odds(item.Start, item.End, item);
                             start_and_end_odds.push({
-                                        name:item.CompanyName,
+                                        id:item.MakerID,
+                                        name:item.CompanyName+" ("+country(item.MakerID)+")",
                                         start:item.Start.home+" "+item.Start.draw+" "+item.Start.away,
-                                        end:item.End.home+" "+item.End.draw+" "+item.End.away
+                                        end:item.End.home_+" "+item.End.draw_+" "+item.End.away_,
+                                        diff:item.Diff,
+                                        last:item.spchangeHometeam[0].Before+"("+item.spchangeHometeam.length+")"
                                     }
                             );
 

@@ -72,14 +72,20 @@
       <file leaf-file-name="match.ftl" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/WEB-INF/templates/match.ftl">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="108" column="18" selection-start="4067" selection-end="4067" vertical-scroll-proportion="0.41284403" vertical-offset="1593" max-vertical-offset="4048">
+            <state line="216" column="54" selection-start="8422" selection-end="8422" vertical-scroll-proportion="0.29272726" vertical-offset="3295" max-vertical-offset="4832">
               <folding>
-                <marker date="1387873112658" expanded="false" signature="2293:2305" placeholder="..." />
-                <marker date="1387873112658" expanded="false" signature="2400:2410" placeholder="..." />
-                <marker date="1387873112658" expanded="false" signature="2513:2525" placeholder="..." />
-                <marker date="1387873112658" expanded="false" signature="2620:2630" placeholder="..." />
-                <marker date="1387873112658" expanded="false" signature="2733:2745" placeholder="..." />
-                <marker date="1387873112658" expanded="false" signature="2840:2850" placeholder="..." />
+                <marker date="1387906057737" expanded="true" signature="2514:2526" placeholder="..." />
+                <marker date="1387906057737" expanded="true" signature="2590:2602" placeholder="..." />
+                <marker date="1387906057737" expanded="true" signature="2716:2726" placeholder="..." />
+                <marker date="1387906057737" expanded="true" signature="2790:2800" placeholder="..." />
+                <marker date="1387906057737" expanded="true" signature="3032:3044" placeholder="..." />
+                <marker date="1387906057737" expanded="true" signature="3108:3120" placeholder="..." />
+                <marker date="1387906057737" expanded="true" signature="3234:3244" placeholder="..." />
+                <marker date="1387906057737" expanded="true" signature="3308:3318" placeholder="..." />
+                <marker date="1387906057737" expanded="true" signature="3550:3562" placeholder="..." />
+                <marker date="1387906057737" expanded="true" signature="3626:3638" placeholder="..." />
+                <marker date="1387906057737" expanded="true" signature="3752:3762" placeholder="..." />
+                <marker date="1387906057737" expanded="true" signature="3826:3836" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -161,10 +167,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="693" />
-    <option name="y" value="95" />
-    <option name="width" value="1362" />
-    <option name="height" value="913" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -331,6 +337,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="honeycomb" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="honeycomb" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -413,8 +437,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\dev.projects\honeycomb\web\WEB-INF\lib" />
       <recent name="D:\dev.projects\honeycomb\web\resources" />
+      <recent name="D:\dev.projects\honeycomb\web\WEB-INF\lib" />
       <recent name="D:\dev.projects\ArchiveX\ss\web\WEB-INF\lib" />
       <recent name="D:\dev.projects\ArchiveX\ss\web\resources" />
     </key>
@@ -815,15 +839,15 @@
       <workItem from="1387783506552" duration="3247000" />
       <workItem from="1387791173637" duration="8923000" />
       <workItem from="1387805245019" duration="521000" />
-      <workItem from="1387861742581" duration="7395000" />
+      <workItem from="1387861742581" duration="15579000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="118395000" />
+    <option name="totallyTimeSpent" value="126579000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="693" y="95" width="1362" height="913" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -847,8 +871,8 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928312" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1781874" sideWeight="0.49939248" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.47952443" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14712153" sideWeight="0.49939248" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3288889" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18085809" sideWeight="0.50060755" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -857,38 +881,6 @@
       <window_info id="Hibernate Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928312" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
     </layout>
-    <layout-to-restore>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
-      <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18085809" sideWeight="0.50060755" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19261926" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928312" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32921174" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928312" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.204947" sideWeight="0.49939248" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34610304" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32893" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Hibernate Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928312" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30779392" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21093148" sideWeight="0.50060755" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24946696" sideWeight="0.49939248" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-    </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USERS">
@@ -911,13 +903,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/tinyms/app/Match.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="40" selection-start="1222" selection-end="1222" vertical-scroll-proportion="0.0" vertical-offset="1104" max-vertical-offset="1264">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/tinyms/core/Api.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="11" column="25" selection-start="291" selection-end="291" vertical-scroll-proportion="0.0" vertical-offset="176" max-vertical-offset="304" />
@@ -1195,16 +1180,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/web/resources/jquery.number.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="407">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/web/WEB-INF/templates/match.ftl">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="108" column="18" selection-start="4067" selection-end="4067" vertical-scroll-proportion="0.41284403" vertical-offset="1593" max-vertical-offset="4048">
+        <state line="216" column="54" selection-start="8422" selection-end="8422" vertical-scroll-proportion="0.29272726" vertical-offset="3295" max-vertical-offset="4832">
           <folding>
-            <marker date="1387873112658" expanded="false" signature="2293:2305" placeholder="..." />
-            <marker date="1387873112658" expanded="false" signature="2400:2410" placeholder="..." />
-            <marker date="1387873112658" expanded="false" signature="2513:2525" placeholder="..." />
-            <marker date="1387873112658" expanded="false" signature="2620:2630" placeholder="..." />
-            <marker date="1387873112658" expanded="false" signature="2733:2745" placeholder="..." />
-            <marker date="1387873112658" expanded="false" signature="2840:2850" placeholder="..." />
+            <marker date="1387906057737" expanded="true" signature="2514:2526" placeholder="..." />
+            <marker date="1387906057737" expanded="true" signature="2590:2602" placeholder="..." />
+            <marker date="1387906057737" expanded="true" signature="2716:2726" placeholder="..." />
+            <marker date="1387906057737" expanded="true" signature="2790:2800" placeholder="..." />
+            <marker date="1387906057737" expanded="true" signature="3032:3044" placeholder="..." />
+            <marker date="1387906057737" expanded="true" signature="3108:3120" placeholder="..." />
+            <marker date="1387906057737" expanded="true" signature="3234:3244" placeholder="..." />
+            <marker date="1387906057737" expanded="true" signature="3308:3318" placeholder="..." />
+            <marker date="1387906057737" expanded="true" signature="3550:3562" placeholder="..." />
+            <marker date="1387906057737" expanded="true" signature="3626:3638" placeholder="..." />
+            <marker date="1387906057737" expanded="true" signature="3752:3762" placeholder="..." />
+            <marker date="1387906057737" expanded="true" signature="3826:3836" placeholder="..." />
           </folding>
         </state>
       </provider>
