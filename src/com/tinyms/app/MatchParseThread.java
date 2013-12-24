@@ -86,7 +86,9 @@ public class MatchParseThread implements Runnable {
 
             for (List<String> item : items) {
                 Match m = new Match();
-                doc = Jsoup.connect(String.format("http://www.okooo.com/soccer/match/%s/odds/", item.get(1))).get();
+                String url_odds = String.format("http://www.okooo.com/soccer/match/%s/odds/", item.get(1));
+                Log.warning("Parse: "+url_odds);
+                doc = Jsoup.connect(url_odds).get();
                 Elements scripts = doc.select("script[type=text/javascript]:not([src~=[a-zA-Z0-9./\\s]+)");
                 for (Element script : scripts) {
                     String data = script.data();
@@ -108,7 +110,7 @@ public class MatchParseThread implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.warning(Utils.encode(matches));
+        Log.warning("Completed!");
         return matches;
     }
 

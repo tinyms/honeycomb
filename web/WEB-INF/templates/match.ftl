@@ -32,6 +32,7 @@
         var timer = null;
         var simple;
         var dataset = [];
+        var main_team="",client_team="";
         function get_results(){
             $.post("/api/com.tinyms.app.310win/get",{},function(data){
                 if(data.result.length>=14){
@@ -50,7 +51,7 @@
                         });
 
                     });
-                    console.log(dataset);
+                    //console.log(dataset);
                     simple.setAttrs({data:dataset});
                 }
 
@@ -83,12 +84,41 @@
                 $(chk).parent().parent().removeClass("jfhilite");
             }
         }
+        function color_jf_row(){
+            var main_ = false;
+            var client_ = false;
+            $("#jf_list tbody.yui3-datatable-data tr").each(function(i,tr){
+                if((i==2||i==3)&&!main_){
+                    var td = $(tr).children(":eq(2)");
+                    if(main_team.indexOf(td.text())!=-1){
+                        $(tr).addClass("jfhilite");
+                        main_ = true;
+                    }
+                }
+                if((i==4||i==5)&&!client_){
+                    var td = $(tr).children(":eq(2)");
+                    if(client_team.indexOf(td.text())!=-1){
+                        $(tr).addClass("jfhilite");
+                        client_=true;
+                    }
+                }
+            });
+        }
         function startup_parse_thread(){
             $.post("/api/com.tinyms.app.310win/run",{"url":$("#url").val()},function(data){
-                console.log(data);
+                //console.log(data);
                 $("#parse_btn").prop("disabled",true);
                 timer = setInterval(get_results, 5000);
             },"json");
+        }
+        function include(no){
+            var makers = ["14","82","94","35","84","27","65","59","18"]
+            for(var i=0;i<makers.length;i++){
+                if(no==makers[i]){
+                    return true;
+                }
+            }
+            return false;
         }
         $(document).ready(function(){
 
@@ -147,6 +177,8 @@
                 var tr = e.newVal,              // the Node for the TR clicked ...
                 last_tr = e.prevVal,        //  "   "   "   the last TR clicked ...
                 rec = this.getRecord(tr);   // the current Record for the clicked TR
+                main_team = rec.get("main");
+                client_team = rec.get("client");
                 if ( !last_tr ) {
                     // first time thru ... display the Detail DT DIV that was hidden
                     //Y.one("#chars").show();
@@ -158,8 +190,7 @@
                 var start_and_end_odds = [];
                 if(rec.get("data")){
                     Y.Array.each(rec.get("data"),function(item){
-                        if(item.MakerID==14 || item.MakerID==82||item.MakerID==27
-                                ||item.MakerID==35||item.MakerID==84){
+                        if(include(item.MakerID)){
                             color_odds(item.Start, item.End);
                             start_and_end_odds.push({
                                         name:item.CompanyName,
@@ -176,6 +207,7 @@
                     data: start_and_end_odds,
                     caption: '<strong>' + rec.get('main') + " "+rec.get("client")+'</strong>'
                 });
+
                 var jflist = [];
                 if(rec.get("jf")){
                     Y.Array.each(rec.get("jf"),function(item){
@@ -194,6 +226,7 @@
                     data: jflist,
                     caption: '<strong>' + rec.get('main') + " "+rec.get("client")+'</strong>'
                 });
+                color_jf_row();
             });
         });
     </script>
@@ -206,7 +239,10 @@
 </div>
 <div class="yui3-g">
     <div class="yui3-u-1-3"><div id="matchs"></div></div>
-    <div class="yui3-u-2-3"><div id="jf_list"></div><div id="start_end"></div></div>
+    <div class="yui3-u-2-3">
+        <div id="jf_list"></div>
+        <div id="start_end"></div>
+    </div>
 </div>
 </body>
 </html>
