@@ -1,5 +1,7 @@
 package com.tinyms.core;
 
+import com.tinyms.point.IServerStartup;
+import com.tinyms.point.IUploader;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -20,8 +22,7 @@ public class ClassLoaderUtil {
 
     private static Map<String, Object> apiObjectPool = new HashMap<String, Object>();
     private static Map<String, RouteTarget> routeObjectPool = new HashMap<String, RouteTarget>();
-    private static List<IUploader> uploaders = new ArrayList<IUploader>();
-    private static Map<String,List<Object>> plugins = new HashMap<String, List<Object>>();
+    private static Map<String, List<Object>> plugins = new HashMap<String, List<Object>>();
 
     public static Object getApiObject(String key) {
         return apiObjectPool.get(key);
@@ -31,23 +32,22 @@ public class ClassLoaderUtil {
         return routeObjectPool.get(key);
     }
 
-    public static List<IUploader> getUploaderPlugins() {
-        return uploaders;
-    }
-
     public static <T> List<T> getPlugin(Class<T> cls) {
         List<T> items = new ArrayList<T>();
         List<Object> plugins_ = plugins.get(cls.getName());
-        for(Object o : plugins_){
-            items.add((T)o);
+        if (plugins_ == null) {
+            return items;
+        }
+        for (Object o : plugins_) {
+            items.add((T) o);
         }
         return items;
     }
 
-    private static void putPlugin(Class<?> interface_, Class<?> o){
+    private static void putPlugin(Class<?> interface_, Class<?> o) {
         List<Object> plugins_ = plugins.get(interface_.getName());
-        if(plugins_==null){
-            plugins.put(interface_.getName(),new ArrayList<Object>());
+        if (plugins_ == null) {
+            plugins.put(interface_.getName(), new ArrayList<Object>());
         }
         try {
             plugins.get(interface_.getName()).add(o.newInstance());
@@ -58,11 +58,12 @@ public class ClassLoaderUtil {
         }
     }
 
-    public static void loadAnnotationPresentObjects() {
-        apiObjectPool.clear();
-        routeObjectPool.clear();
-        uploaders.clear();
-        Set<Class<?>> classes = getClasses("com.tinyms", true);
+    public static void loadPlugins(String packageName) {
+        if ("com.tinyms".equals(packageName)) {
+            apiObjectPool.clear();
+            routeObjectPool.clear();
+        }
+        Set<Class<?>> classes = getClasses(packageName, true);
         for (Class cls : classes) {
             if (cls.isAnnotationPresent(Api.class)) {
                 Api api = (Api) cls.getAnnotation(Api.class);
@@ -108,11 +109,13 @@ public class ClassLoaderUtil {
                         }
                     }
                 }
-            }else{
+            } else {
                 Class<?>[] interfaces = cls.getInterfaces();
-                for(Class intertf : interfaces){
-                    if(intertf.getName().equals(IUploader.class.getName())){
-                            putPlugin(IUploader.class, cls);
+                for (Class intertf : interfaces) {
+                    if (intertf.getName().equals(IServerStartup.class.getName())) {
+                        putPlugin(IServerStartup.class, cls);
+                    } else if (intertf.getName().equals(IUploader.class.getName())) {
+                        putPlugin(IUploader.class, cls);
                     }
                 }
             }
@@ -167,7 +170,7 @@ public class ClassLoaderUtil {
                 String protocol = url.getProtocol();
                 // 如果是以文件的形式保存在服务器上
                 if ("file".equals(protocol)) {
-                    System.err.println("file type scan..");
+                    Log.info("Search class from file...");
                     // 获取包的物理路径
                     String filePath = URLDecoder.decode(url.getFile(), "UTF-8");
                     // 以文件的方式扫描整个包下的文件 并添加到集合中
@@ -176,7 +179,7 @@ public class ClassLoaderUtil {
                 } else if ("jar".equals(protocol)) {
                     // 如果是jar包文件
                     // 定义一个JarFile
-                    System.err.println("jar type scan..");
+                    Log.info("Search class from jar...");
                     JarFile jar;
                     try {
                         // 获取jar

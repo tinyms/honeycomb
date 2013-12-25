@@ -12,5 +12,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface Route {
     String name() default "/";
+
     boolean auth() default false;
 }

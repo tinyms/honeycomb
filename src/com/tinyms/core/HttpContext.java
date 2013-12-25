@@ -15,25 +15,27 @@ public class HttpContext {
     private static Configuration freemarkerConfiguration = new Configuration();
     public HttpServletRequest request;
     public HttpServletResponse response;
-    public static String realpath = "/";
-    public void render(String tplPath,Object data){
+
+    public void render(String tplPath, Object data) {
         try {
             Template tpl = freemarkerConfiguration.getTemplate(tplPath, "utf-8");
-            tpl.process(data,response.getWriter());
+            tpl.process(data, response.getWriter());
         } catch (IOException e) {
             e.printStackTrace();
         } catch (TemplateException e) {
             e.printStackTrace();
         }
     }
-    public void render(String text){
+
+    public void render(String text) {
         try {
             response.getWriter().write(text);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public static Configuration getFreemarkerConfiguration(){
+
+    public static Configuration getFreemarkerConfiguration() {
         return freemarkerConfiguration;
     }
 }

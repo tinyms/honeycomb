@@ -1,7 +1,6 @@
 package com.tinyms.core;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -26,7 +25,7 @@ import java.util.logging.Logger;
  * Created by tinyms on 13-12-18.
  */
 public class LuceneUtil {
-    private Logger Log= Logger.getAnonymousLogger();
+    private Logger Log = Logger.getAnonymousLogger();
     private Directory directory = null;
 
     public LuceneUtil(String storedPath) {
@@ -50,19 +49,19 @@ public class LuceneUtil {
         }
     }
 
-    public Map<String,Object> paginate(String keyWord, String[] fieldNames, int curpage, int pageSize, ILuceneSearch iSearchResultHandler) {
-        Map<String,Object> result = new HashMap<String,Object>();
+    public Map<String, Object> paginate(String keyWord, String[] fieldNames, int curpage, int pageSize, ILuceneSearch iSearchResultHandler) {
+        Map<String, Object> result = new HashMap<String, Object>();
         result.put("rows", 0);
         result.put("pages", 0);
         result.put("items", new ArrayList());
         keyWord = StringUtils.trimToEmpty(keyWord);
-        if(StringUtils.isBlank(keyWord)){
+        if (StringUtils.isBlank(keyWord)) {
             return result;
         }
-        if(keyWord.indexOf("\"")==-1){
+        if (keyWord.indexOf("\"") == -1) {
             List<String> chinese = Utils.parseChinese(keyWord);
-            for(String str : chinese){
-                keyWord = StringUtils.replace(keyWord,str,"\""+str+"\"");
+            for (String str : chinese) {
+                keyWord = StringUtils.replace(keyWord, str, "\"" + str + "\"");
             }
         }
         try {
@@ -99,7 +98,7 @@ public class LuceneUtil {
                 Object item = iSearchResultHandler.doInSearch(doc, analyzer, highlighter);
                 items.add(item);
             }
-            result.put("items",items);
+            result.put("items", items);
             return result;
 
         } catch (Exception e) {
@@ -110,40 +109,40 @@ public class LuceneUtil {
         return result;
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         LuceneUtil lucene = new LuceneUtil("E:/lucene/hospital/");
-        Object o = lucene.paginate("病毒",new String[]{"content"},1,20,new ILuceneSearch() {
+        Object o = lucene.paginate("病毒", new String[]{"content"}, 1, 20, new ILuceneSearch() {
             @Override
             public Object doInSearch(Document doc, Analyzer analyzer, Highlighter highlighter) {
-                Map<String,String> item = new HashMap<String, String>();
+                Map<String, String> item = new HashMap<String, String>();
                 String id = doc.get("id");
-                String product_name = LuceneUtil.colorKeyWords(doc,analyzer,highlighter,"product_name");
-                String provider_name = LuceneUtil.colorKeyWords(doc,analyzer,highlighter,"provider_name");
-                String index_no = LuceneUtil.colorKeyWords(doc,analyzer,highlighter,"index_no");
-                String build = LuceneUtil.colorKeyWords(doc,analyzer,highlighter,"build");
-                String func = LuceneUtil.colorKeyWords(doc,analyzer,highlighter,"func");
-                String bak = LuceneUtil.colorKeyWords(doc,analyzer,highlighter,"bak");
-                item.put("id",id);
-                item.put("product_name",product_name);
-                item.put("provider_name",provider_name);
-                item.put("index_no",index_no);
-                item.put("build",build);
-                item.put("func",func);
-                item.put("bak",bak);
+                String product_name = LuceneUtil.colorKeyWords(doc, analyzer, highlighter, "product_name");
+                String provider_name = LuceneUtil.colorKeyWords(doc, analyzer, highlighter, "provider_name");
+                String index_no = LuceneUtil.colorKeyWords(doc, analyzer, highlighter, "index_no");
+                String build = LuceneUtil.colorKeyWords(doc, analyzer, highlighter, "build");
+                String func = LuceneUtil.colorKeyWords(doc, analyzer, highlighter, "func");
+                String bak = LuceneUtil.colorKeyWords(doc, analyzer, highlighter, "bak");
+                item.put("id", id);
+                item.put("product_name", product_name);
+                item.put("provider_name", provider_name);
+                item.put("index_no", index_no);
+                item.put("build", build);
+                item.put("func", func);
+                item.put("bak", bak);
                 return item;
             }
         });
         System.out.println(Utils.encode(o));
     }
 
-    public static String colorKeyWords(Document doc, Analyzer analyzer, Highlighter highlighter, String fieldName){
+    public static String colorKeyWords(Document doc, Analyzer analyzer, Highlighter highlighter, String fieldName) {
         String val = doc.get(fieldName);
-        if(StringUtils.isBlank(val)){
+        if (StringUtils.isBlank(val)) {
             return "";
         }
         try {
             String colorText = highlighter.getBestFragment(analyzer, fieldName, val);
-            if(!StringUtils.isBlank(colorText)){
+            if (!StringUtils.isBlank(colorText)) {
                 return colorText;
             }
         } catch (IOException e) {
@@ -154,7 +153,7 @@ public class LuceneUtil {
         return val;
     }
 
-    private static Highlighter createHighlighter(Query query){
+    private static Highlighter createHighlighter(Query query) {
         SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter("<span style='color:red'>", "</span>");
         Highlighter highlighter = new Highlighter(simpleHTMLFormatter, new QueryScorer(query));
         SimpleFragmenter sf = new SimpleFragmenter(100);

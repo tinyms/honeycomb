@@ -1,6 +1,6 @@
 package com.tinyms.app;
 
-import com.tinyms.core.HttpContext;
+import com.tinyms.core.Configuration;
 import com.tinyms.core.Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
@@ -11,13 +11,7 @@ import org.jsoup.select.Elements;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -57,12 +51,11 @@ public class MatchParseThread implements Runnable {
     }
 
 
-
     private static List<Match> parse(String url) {
         Log.warning(url);
         List<List<String>> items = new ArrayList<List<String>>();
         matches.clear();
-        if(StringUtils.isBlank(url)){
+        if (StringUtils.isBlank(url)) {
             return matches;
         }
         try {
@@ -92,13 +85,13 @@ public class MatchParseThread implements Runnable {
             for (List<String> item : items) {
                 urls.add(String.format("http://www.okooo.com/soccer/match/%s/odds/", item.get(1)));
             }
-            String path = HttpContext.realpath+"download/odds/";
+            String path = Configuration.WebAbsPath + "download/odds/";
             boolean b = Utils.batchDownloadHtml(urls, path);
-            if(b){
+            if (b) {
                 for (List<String> item : items) {
                     Match m = new Match();
                     String f_name = String.format("http://www.okooo.com/soccer/match/%s/odds/", item.get(1));
-                    doc = Jsoup.parse(new File(path + Utils.md5(f_name)+".html"), "gb2312");
+                    doc = Jsoup.parse(new File(path + Utils.md5(f_name) + ".html"), "gb2312");
                     Elements scripts = doc.select("script[type=text/javascript]:not([src~=[a-zA-Z0-9./\\s]+)");
                     for (Element script : scripts) {
                         String data = script.data();
@@ -126,13 +119,13 @@ public class MatchParseThread implements Runnable {
         return matches;
     }
 
-    private static List<List<String>> parseJf(Document doc){
+    private static List<List<String>> parseJf(Document doc) {
         List<List<String>> html = new ArrayList<List<String>>();
         Elements trs = doc.select("#jflist tr.topjfbg");
-        for(Element tr : trs){
+        for (Element tr : trs) {
             List<String> td_content = new ArrayList<String>();
             Elements tds = tr.select("td");
-            for(Element td : tds){
+            for (Element td : tds) {
                 td_content.add(td.html());
             }
             html.add(td_content);
@@ -140,7 +133,7 @@ public class MatchParseThread implements Runnable {
         return html;
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
     }
 

@@ -1,6 +1,5 @@
 package com.tinyms.core;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,22 +31,22 @@ public class WebViewServlet extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter pw = response.getWriter();
         String path = request.getServletPath();
-        if(path==null){
+        if (path == null) {
             path = "/index.html";
         }
         RouteTarget route = ClassLoaderUtil.getRouteObject(path);
-        if(route!=null){
+        if (route != null) {
             HttpContext context = new HttpContext();
             context.request = request;
             context.response = response;
             try {
-                route.getMethod().invoke(route.getTarget(),context);
+                route.getMethod().invoke(route.getTarget(), context);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             } catch (InvocationTargetException e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             pw.write("View not found.");
         }
         pw.close();

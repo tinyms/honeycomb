@@ -3,7 +3,6 @@ package com.tinyms.core;
 import com.google.gson.Gson;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -52,11 +51,11 @@ public class ApiServlet extends HttpServlet {
                 String key = methods.get(0);
                 String method = methods.get(1);
                 Object target = ClassLoaderUtil.getApiObject(key);
-                if(target!=null){
+                if (target != null) {
                     try {
                         //is cache??
                         Method m = target.getClass().getMethod(method, HttpContext.class);
-                        if(m.getModifiers() == Modifier.PUBLIC){
+                        if (m.getModifiers() == Modifier.PUBLIC) {
                             HttpContext context = new HttpContext();
                             context.request = request;
                             context.response = response;
@@ -74,19 +73,19 @@ public class ApiServlet extends HttpServlet {
                         Log.warning("IllegalAccessException");
                         ErrorMessage(pw);
                     }
-                }else{
+                } else {
                     ErrorMessage(pw);
                 }
-            }else{
+            } else {
                 ErrorMessage(pw);
             }
-        }else{
+        } else {
             ErrorMessage(pw);
         }
         pw.close();
     }
 
-    private static void ErrorMessage(PrintWriter pw){
+    private static void ErrorMessage(PrintWriter pw) {
         Gson json = new Gson();
         pw.println(json.toJson("Error"));
     }

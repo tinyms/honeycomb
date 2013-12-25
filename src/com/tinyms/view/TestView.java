@@ -11,6 +11,6 @@ import com.tinyms.core.WebView;
 public class TestView {
     @Route(name = "ftl")
     public void render(HttpContext context) {
-        context.render("index.ftl",null);
+        context.render("index.ftl", null);
     }
 }

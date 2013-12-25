@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+CacheManager Configuration
+==========================
+An ehcache.xml corresponds to a single CacheManager.
+
+Here is an example of CacheManager level resource tuning, which will use up to 400M of heap and 2G of offHeap:
+
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="ehcache.xsd"
+         updateCheck="true" monitoring="autodetect"
+         dynamicConfig="true" maxBytesLocalHeap="400M" maxBytesLocalOffHeap="2G">
+
+-->
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="ehcache.xsd"
+         updateCheck="true" monitoring="autodetect"
+         dynamicConfig="true">
+
+    <diskStore path="d:/web-cache/"/>
+
+    <cacheManagerPeerProviderFactory
+            class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
+            properties="peerDiscovery=automatic,
+                        multicastGroupAddress=230.0.0.1,
+                        multicastGroupPort=4446, timeToLive=1"
+            propertySeparator=","
+            />
+
+    <cacheManagerPeerListenerFactory
+            class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"/>
+
+    <defaultCache
+            maxEntriesLocalHeap="100"
+            eternal="false"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="120"
+            diskSpoolBufferSizeMB="30"
+            maxEntriesLocalDisk="10000000"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU">
+        <persistence strategy="localTempSwap"/>
+    </defaultCache>
+
+    <cache name="honeycomb"
+           maxEntriesLocalHeap="1000"
+           eternal="false"
+           overflowToDisk="true"
+           diskPersistent="true"
+           timeToIdleSeconds="300"
+           timeToLiveSeconds="600"
+           diskSpoolBufferSizeMB="30"
+           maxEntriesLocalDisk="10000000"
+           diskExpiryThreadIntervalSeconds="1"
+           memoryStoreEvictionPolicy="LFU">
+    </cache>
+
+</ehcache>

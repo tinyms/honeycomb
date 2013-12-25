@@ -12,5 +12,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface WebView {
     String name() default "";
+
     boolean auth() default false;
 }

@@ -24,20 +24,21 @@ import java.util.logging.Logger;
  */
 public class Hospital {
     private static Logger Log = Logger.getAnonymousLogger();
+
     public static void create_indexer() {
-        if(Utils.fileOrDirExists("E:/lucene/hospital/")){
+        if (Utils.fileOrDirExists("E:/lucene/hospital/")) {
             Log.warning("fileOrDirExists(\"E:/lucene/hospital/\")");
             return;
         }
         try {
-            final List<Map<String,Object>> ds = Database.self().query("select * from gmfsdetailbook", new MapListHandler());
+            final List<Map<String, Object>> ds = Database.self().query("select * from gmfsdetailbook", new MapListHandler());
             LuceneUtil lucene = new LuceneUtil("E:/lucene/hospital/");
             lucene.Write(new ILuceneWriter() {
                 @Override
                 public void doInWrite(IndexWriter writer) {
-                    for(Map<String,Object> row : ds){
+                    for (Map<String, Object> row : ds) {
                         String id = row.get("id") + "";
-                        String product_name = StringUtils.defaultString(String.format("%s",row.get("product_name")), "");
+                        String product_name = StringUtils.defaultString(String.format("%s", row.get("product_name")), "");
                         String provider_name = StringUtils.defaultString(String.format("%s", row.get("provider_name")), "");
                         String index_no = StringUtils.defaultString(String.format("%s", row.get("index_no")), "");
                         String build = StringUtils.defaultString(String.format("%s", row.get("build")), "");
