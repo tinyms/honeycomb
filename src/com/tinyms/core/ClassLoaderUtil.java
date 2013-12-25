@@ -20,18 +20,48 @@ public class ClassLoaderUtil {
 
     private static Map<String, Object> apiObjectPool = new HashMap<String, Object>();
     private static Map<String, RouteTarget> routeObjectPool = new HashMap<String, RouteTarget>();
+    private static List<IUploader> uploaders = new ArrayList<IUploader>();
+    private static Map<String,List<Object>> plugins = new HashMap<String, List<Object>>();
 
     public static Object getApiObject(String key) {
         return apiObjectPool.get(key);
     }
 
     public static RouteTarget getRouteObject(String key) {
-        Log.warning(key);
         return routeObjectPool.get(key);
+    }
+
+    public static List<IUploader> getUploaderPlugins() {
+        return uploaders;
+    }
+
+    public static <T> List<T> getPlugin(Class<T> cls) {
+        List<T> items = new ArrayList<T>();
+        List<Object> plugins_ = plugins.get(cls.getName());
+        for(Object o : plugins_){
+            items.add((T)o);
+        }
+        return items;
+    }
+
+    private static void putPlugin(Class<?> interface_, Class<?> o){
+        List<Object> plugins_ = plugins.get(interface_.getName());
+        if(plugins_==null){
+            plugins.put(interface_.getName(),new ArrayList<Object>());
+        }
+        try {
+            plugins.get(interface_.getName()).add(o.newInstance());
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void loadAnnotationPresentObjects() {
         apiObjectPool.clear();
+        routeObjectPool.clear();
+        uploaders.clear();
         Set<Class<?>> classes = getClasses("com.tinyms", true);
         for (Class cls : classes) {
             if (cls.isAnnotationPresent(Api.class)) {
@@ -76,6 +106,13 @@ public class ClassLoaderUtil {
                             target.setMethod(m);
                             routeObjectPool.put(String.format("%s%s.html", moduleUrl, mappingUrl), target);
                         }
+                    }
+                }
+            }else{
+                Class<?>[] interfaces = cls.getInterfaces();
+                for(Class intertf : interfaces){
+                    if(intertf.getName().equals(IUploader.class.getName())){
+                            putPlugin(IUploader.class, cls);
                     }
                 }
             }
