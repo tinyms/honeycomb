@@ -8,11 +8,16 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -83,29 +88,36 @@ public class MatchParseThread implements Runnable {
                     items.add(item);
                 }
             }
-
+            List<String> urls = new ArrayList<String>();
             for (List<String> item : items) {
-                Match m = new Match();
-                String url_odds = String.format("http://www.okooo.com/soccer/match/%s/odds/", item.get(1));
-                Log.warning("Parse: "+url_odds);
-                doc = Jsoup.connect(url_odds).get();
-                Elements scripts = doc.select("script[type=text/javascript]:not([src~=[a-zA-Z0-9./\\s]+)");
-                for (Element script : scripts) {
-                    String data = script.data();
-                    if (data.indexOf("var data_str='[{") != -1) {
-                        item.add(parseScript(script.data()));
-                        break;
-                    }
-                }
-                m.setJf(parseJf(doc));
-                m.setSeason(item.get(0));
-                m.setId(Utils.parseInt(item.get(1), 0));
-                m.setMain(item.get(2));
-                m.setScore(item.get(3));
-                m.setClient(item.get(4));
-                m.setData(item.get(5));
-                matches.add(m);
+                urls.add(String.format("http://www.okooo.com/soccer/match/%s/odds/", item.get(1)));
             }
+            String path = HttpContext.realpath+"download/odds/";
+            boolean b = Utils.batchDownloadHtml(urls, path);
+            if(b){
+                for (List<String> item : items) {
+                    Match m = new Match();
+                    String f_name = String.format("http://www.okooo.com/soccer/match/%s/odds/", item.get(1));
+                    doc = Jsoup.parse(new File(path + Utils.md5(f_name)+".html"), "gb2312");
+                    Elements scripts = doc.select("script[type=text/javascript]:not([src~=[a-zA-Z0-9./\\s]+)");
+                    for (Element script : scripts) {
+                        String data = script.data();
+                        if (data.indexOf("var data_str='[{") != -1) {
+                            item.add(parseScript(script.data()));
+                            break;
+                        }
+                    }
+                    m.setJf(parseJf(doc));
+                    m.setSeason(item.get(0));
+                    m.setId(Utils.parseInt(item.get(1), 0));
+                    m.setMain(item.get(2));
+                    m.setScore(item.get(3));
+                    m.setClient(item.get(4));
+                    m.setData(item.get(5));
+                    matches.add(m);
+                }
+            }
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -129,19 +141,7 @@ public class MatchParseThread implements Runnable {
     }
 
     public static void main(String[] args){
-        try {
-            Document doc = Jsoup.connect("http://www.okooo.com/soccer/match/608505/odds/").get();
-            Elements trs = doc.select("#jflist tr.topjfbg");
-            for(Element tr : trs){
-                List<String> td_content = new ArrayList<String>();
-                Elements tds = tr.select("td");
-                for(Element td : tds){
-                    td_content.add(td.html());
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Override
