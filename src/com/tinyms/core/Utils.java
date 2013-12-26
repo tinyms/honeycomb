@@ -130,11 +130,17 @@ public class Utils {
      * @return
      */
     public static boolean batchDownloadHtml(List<String> urls, final String path) {
+        Log.info(path);
         mkdirs(path);
-        ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 10, 1, TimeUnit.DAYS, new LinkedBlockingQueue<Runnable>());
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(3, 3, 1, TimeUnit.DAYS, new LinkedBlockingQueue<Runnable>());
         for (final String url : urls) {
             executor.execute(new Runnable() {
                 public void run() {
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     CloseableHttpClient http = HttpClients.createDefault();
                     HttpGet httpget = new HttpGet(url);
                     httpget.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/30.0.1084.52 Safari/536.5");
@@ -146,6 +152,7 @@ public class Utils {
                         entity.writeTo(os);
                         response.close();
                         os.close();
+                        Log.warning("完成:"+url);
                     } catch (IOException e) {
                         Log.warning("Download Failure!");
                     }

@@ -1,8 +1,11 @@
 package com.tinyms.app;
 
 import com.tinyms.core.Configuration;
+import com.tinyms.core.Database;
 import com.tinyms.core.Utils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -11,6 +14,8 @@ import org.jsoup.select.Elements;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -23,6 +28,7 @@ public class MatchParseThread implements Runnable {
     private static Logger Log = Logger.getAnonymousLogger();
     public static List<Match> matches = new ArrayList<Match>();
     private String url;
+    private static boolean isHistory = false;
 
     public String getUrl() {
         return url;
@@ -61,7 +67,12 @@ public class MatchParseThread implements Runnable {
         try {
             Document doc = Jsoup.connect(url).get();
             Elements trs = doc.select("#livescore_table .tableborder tr");
+            boolean first = true;
             for (Element e : trs) {
+                if(first){
+                    first = false;
+                    continue;
+                }
                 List<String> item = new ArrayList<String>();
                 Elements linkElements = e.select("a");
                 for (Element link : linkElements) {
@@ -139,6 +150,18 @@ public class MatchParseThread implements Runnable {
 
     @Override
     public void run() {
-        parse(this.getUrl());
+        if(isHistory){
+            Date now = Calendar.getInstance().getTime();
+            for(int k=1;k<=5;k++){
+                Date next = DateUtils.addDays(now,-1*k);
+                String no = DateFormatUtils.format(next,"yyyy-MM-dd");
+                String url = String.format("http://www.okooo.com/livecenter/jingcai/?LotteryNo=%s",no);
+                List<Match> matches1 = parse(url);
+                Database.insert("insert into match(no,data)values(?,?)",new Object[]{no,Utils.encode(matches1)});
+            }
+
+        }else{
+            parse(this.getUrl());
+        }
     }
 }

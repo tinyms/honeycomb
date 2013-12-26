@@ -38,7 +38,7 @@ public class Database {
     }
 
     //便捷的方法
-    public int insert(String sql, Object[] params) {
+    public static int insert(String sql, Object[] params) {
         int affectedRows = 0;
         try {
             if (params == null) {
@@ -59,7 +59,7 @@ public class Database {
      *            执行的sql语句
      * @return 主键 注意；此方法没关闭资源
      */
-    public int insertForKeys(String sql, Object[] params) {
+    public static int insertForKeys(String sql, Object[] params) {
         int key = 0;
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -107,23 +107,29 @@ public class Database {
         return key;
     }
 
-    private ScalarHandler scalarHandler = new ScalarHandler() {
-        @Override
-        public Object handle(ResultSet rs) throws SQLException {
-            Object obj = super.handle(rs);
-            if (obj instanceof BigInteger)
-                return ((BigInteger) obj).longValue();
-            return obj;
-        }
-    };
-
-    public long count(String sql, Object... params) {
+    public static long count(String sql, Object... params) {
         Number num = 0;
         try {
             if (params == null) {
-                num = (Number) self().query(sql, scalarHandler);
+                num = (Number) self().query(sql, new ScalarHandler() {
+                    @Override
+                    public Object handle(ResultSet rs) throws SQLException {
+                        Object obj = super.handle(rs);
+                        if (obj instanceof BigInteger)
+                            return ((BigInteger) obj).longValue();
+                        return obj;
+                    }
+                });
             } else {
-                num = (Number) self().query(sql, scalarHandler, params);
+                num = (Number) self().query(sql, new ScalarHandler() {
+                    @Override
+                    public Object handle(ResultSet rs) throws SQLException {
+                        Object obj = super.handle(rs);
+                        if (obj instanceof BigInteger)
+                            return ((BigInteger) obj).longValue();
+                        return obj;
+                    }
+                }, params);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -137,7 +143,7 @@ public class Database {
      * @param sql sql语句
      * @return 受影响的行数
      */
-    public int update(String sql) {
+    public static int update(String sql) {
         return update(sql, null);
     }
 
@@ -148,7 +154,7 @@ public class Database {
      * @param param 参数
      * @return 受影响的行数
      */
-    public int update(String sql, Object param) {
+    public static int update(String sql, Object param) {
         return update(sql, new Object[]{param});
     }
 
@@ -159,7 +165,7 @@ public class Database {
      * @param params 参数数组
      * @return 受影响的行数
      */
-    public int update(String sql, Object[] params) {
+    public static int update(String sql, Object[] params) {
         int affectedRows = 0;
         try {
             if (params == null) {
@@ -180,7 +186,7 @@ public class Database {
      * @param params 二维参数数组
      * @return 受影响的行数的数组
      */
-    public int[] batchUpdate(String sql, Object[][] params) {
+    public static int[] batchUpdate(String sql, Object[][] params) {
         int[] affectedRows = new int[0];
         try {
             affectedRows = self().batch(sql, params);
@@ -196,7 +202,7 @@ public class Database {
      * @param sql sql语句
      * @return 查询结果
      */
-    public List<Map<String, Object>> find(String sql) {
+    public static List<Map<String, Object>> find(String sql) {
         return find(sql, null);
     }
 
@@ -207,7 +213,7 @@ public class Database {
      * @param param 参数
      * @return 查询结果
      */
-    public List<Map<String, Object>> find(String sql, Object param) {
+    public static List<Map<String, Object>> find(String sql, Object param) {
         return find(sql, new Object[]{param});
     }
 
@@ -219,7 +225,7 @@ public class Database {
      * @return 查询结果
      */
     @SuppressWarnings("unchecked")
-    public List<Map<String, Object>> findPage(String sql, int page, int count, Object... params) {
+    public static List<Map<String, Object>> findPage(String sql, int page, int count, Object... params) {
         sql = sql + " LIMIT ?,?";
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         try {
@@ -244,7 +250,7 @@ public class Database {
      * @return 查询结果
      */
     @SuppressWarnings("unchecked")
-    public List<Map<String, Object>> find(String sql, Object[] params) {
+    public static List<Map<String, Object>> find(String sql, Object[] params) {
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         try {
             if (params == null) {
@@ -265,7 +271,7 @@ public class Database {
      * @param sql         sql语句
      * @return 查询结果
      */
-    public <T> List<T> find(Class<T> entityClass, String sql) {
+    public static <T> List<T> find(Class<T> entityClass, String sql) {
         return find(entityClass, sql, null);
     }
 
@@ -277,7 +283,7 @@ public class Database {
      * @param param       参数
      * @return 查询结果
      */
-    public <T> List<T> find(Class<T> entityClass, String sql, Object param) {
+    public static <T> List<T> find(Class<T> entityClass, String sql, Object param) {
         return find(entityClass, sql, new Object[]{param});
     }
 
@@ -290,7 +296,7 @@ public class Database {
      * @return 查询结果
      */
     @SuppressWarnings("unchecked")
-    public <T> List<T> find(Class<T> entityClass, String sql, Object[] params) {
+    public static <T> List<T> find(Class<T> entityClass, String sql, Object[] params) {
         List<T> list = new ArrayList<T>();
         try {
             if (params == null) {
@@ -311,7 +317,7 @@ public class Database {
      * @param sql         sql语句
      * @return 对象
      */
-    public <T> T findFirst(Class<T> entityClass, String sql) {
+    public static <T> T findFirst(Class<T> entityClass, String sql) {
         return findFirst(entityClass, sql, null);
     }
 
@@ -323,7 +329,7 @@ public class Database {
      * @param param       参数
      * @return 对象
      */
-    public <T> T findFirst(Class<T> entityClass, String sql, Object param) {
+    public static <T> T findFirst(Class<T> entityClass, String sql, Object param) {
         return findFirst(entityClass, sql, new Object[]{param});
     }
 
@@ -336,7 +342,7 @@ public class Database {
      * @return 对象
      */
     @SuppressWarnings("unchecked")
-    public <T> T findFirst(Class<T> entityClass, String sql, Object[] params) {
+    public static <T> T findFirst(Class<T> entityClass, String sql, Object[] params) {
         Object object = null;
         try {
             if (params == null) {
@@ -356,7 +362,7 @@ public class Database {
      * @param sql sql语句
      * @return 封装为Map的对象
      */
-    public Map<String, Object> findFirst(String sql) {
+    public static Map<String, Object> findFirst(String sql) {
         return findFirst(sql, null);
     }
 
@@ -367,7 +373,7 @@ public class Database {
      * @param param 参数
      * @return 封装为Map的对象
      */
-    public Map<String, Object> findFirst(String sql, Object param) {
+    public static Map<String, Object> findFirst(String sql, Object param) {
         return findFirst(sql, new Object[]{param});
     }
 
@@ -379,7 +385,7 @@ public class Database {
      * @return 封装为Map的对象
      */
     @SuppressWarnings("unchecked")
-    public Map<String, Object> findFirst(String sql, Object[] params) {
+    public static Map<String, Object> findFirst(String sql, Object[] params) {
         Map<String, Object> map = null;
         try {
             if (params == null) {
@@ -400,7 +406,7 @@ public class Database {
      * @param colName 列名
      * @return 结果对象
      */
-    public Object findBy(String sql, String colName) {
+    public static Object findBy(String sql, String colName) {
         return findBy(sql, colName, null);
     }
 
@@ -412,7 +418,7 @@ public class Database {
      * @param param      参数
      * @return 结果对象
      */
-    public Object findBy(String sql, String columnName, Object param) {
+    public static Object findBy(String sql, String columnName, Object param) {
         return findBy(sql, columnName, new Object[]{param});
     }
 
@@ -424,7 +430,7 @@ public class Database {
      * @param params     参数数组
      * @return 结果对象
      */
-    public Object findBy(String sql, String columnName, Object[] params) {
+    public static Object findBy(String sql, String columnName, Object[] params) {
         Object object = null;
         try {
             if (params == null) {
@@ -445,7 +451,7 @@ public class Database {
      * @param columnIndex 列索引
      * @return 结果对象
      */
-    public Object findBy(String sql, int columnIndex) {
+    public static Object findBy(String sql, int columnIndex) {
         return findBy(sql, columnIndex, null);
     }
 
@@ -457,7 +463,7 @@ public class Database {
      * @param param       参数
      * @return 结果对象
      */
-    public Object findBy(String sql, int columnIndex, Object param) {
+    public static Object findBy(String sql, int columnIndex, Object param) {
         return findBy(sql, columnIndex, new Object[]{param});
     }
 
@@ -469,7 +475,7 @@ public class Database {
      * @param params      参数数组
      * @return 结果对象
      */
-    public Object findBy(String sql, int columnIndex, Object[] params) {
+    public static Object findBy(String sql, int columnIndex, Object[] params) {
         Object object = null;
         try {
             if (params == null) {
@@ -492,14 +498,14 @@ public class Database {
      * @param params
      * @return
      */
-    public <T> List<T> findPage(Class<T> beanClass, String sql, int page, int pageSize, Object... params) {
+    public static <T> List<T> findPage(Class<T> beanClass, String sql, int page, int pageSize, Object... params) {
         if (page <= 1) {
             page = 0;
         }
         return query(beanClass, sql + " LIMIT ?,?", ArrayUtils.addAll(params, new Integer[]{page, pageSize}));
     }
 
-    public <T> List<T> query(Class<T> beanClass, String sql, Object... params) {
+    public static <T> List<T> query(Class<T> beanClass, String sql, Object... params) {
         try {
             return (List<T>) self().query(sql, isPrimitive(beanClass) ? columnListHandler : new BeanListHandler(
                     beanClass), params);
@@ -509,7 +515,7 @@ public class Database {
         return null;
     }
 
-    private List<Class<?>> PrimitiveClasses = new ArrayList<Class<?>>() {
+    private static List<Class<?>> PrimitiveClasses = new ArrayList<Class<?>>() {
         {
             add(Long.class);
             add(Integer.class);
@@ -532,7 +538,7 @@ public class Database {
     };
 
     // 判断是否为原始类型
-    private boolean isPrimitive(Class<?> cls) {
+    private static boolean isPrimitive(Class<?> cls) {
         return cls.isPrimitive() || PrimitiveClasses.contains(cls);
     }
     // map

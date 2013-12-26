@@ -10,7 +10,7 @@
         font-family: "微软雅黑";
         font-size: 14px;
         margin: auto; /* center in viewport */
-        width: 1024px;
+        width: 1200px;
     }
 
     .font_red {
@@ -153,10 +153,12 @@ function country(comId) {
     countries["18"] = "德国";
     countries["170"] = "瑞典";
     countries["285"] = "荷兰";
+    countries["59"] = "澳大利";//SportsTAB
+    countries["43"] = "马耳他";//Interwetten
     return countries[comId];
 }
 function include(no) {
-    var makers = ["14", "82", "94", "35", "84", "27", "65", "59", "18", "25", "159", "170", "285"]
+    var makers = ["14", "82", "94", "35", "84", "27", "65", "59", "18", "25", "159", "170", "285","59","43"]
     for (var i = 0; i < makers.length; i++) {
         if (no == makers[i]) {
             return true;
@@ -245,13 +247,17 @@ YUI().use("datatable", function (Y) {
             Y.Array.each(rec.get("data"), function (item) {
                 if (include(item.MakerID)) {
                     color_odds(item.Start, item.End, item);
+                    var change = "";
+                    if(item.spchangeHometeam.length>0){
+                        change = item.spchangeHometeam[0].Before + "(" + item.spchangeHometeam.length + ")";
+                    }
                     start_and_end_odds.push({
                                 id: item.MakerID,
                                 name: item.CompanyName + " (" + country(item.MakerID) + ")",
                                 start: item.Start.home + " " + item.Start.draw + " " + item.Start.away,
                                 end: item.End.home_ + " " + item.End.draw_ + " " + item.End.away_,
                                 diff: item.Diff,
-                                last: item.spchangeHometeam[0].Before + "(" + item.spchangeHometeam.length + ")"
+                                last: change
                             }
                     );
 
