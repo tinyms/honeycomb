@@ -17,7 +17,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -48,6 +51,10 @@ public class Utils {
      */
     public static int TB = 1024 * GB;
     private static CacheManager cacheManager = CacheManager.create();
+
+    public static void log(Object o){
+        System.out.println(encode(o));
+    }
 
     //Re valid
     public static int parseInt(String text, int defalutValue) {
@@ -120,6 +127,15 @@ public class Utils {
         return "";
     }
 
+    //sql datetime
+    public static Timestamp timestamp(Date date){
+        return new java.sql.Timestamp(date.getTime());
+    }
+
+    public static Timestamp current_timestamp(){
+        return new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
+    }
+
     //Http utils
 
     /**
@@ -132,7 +148,7 @@ public class Utils {
     public static boolean batchDownloadHtml(List<String> urls, final String path) {
         Log.info(path);
         mkdirs(path);
-        ThreadPoolExecutor executor = new ThreadPoolExecutor(3, 3, 1, TimeUnit.DAYS, new LinkedBlockingQueue<Runnable>());
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 1, 1, TimeUnit.DAYS, new LinkedBlockingQueue<Runnable>());
         for (final String url : urls) {
             executor.execute(new Runnable() {
                 public void run() {

@@ -41,4 +41,9 @@ public class HospitalSearch {
             }
         });
     }
+
+    public Object view(HttpContext context){
+        final int id = Utils.parseInt(context.request.getParameter("id"),0);
+        return Database.findFirst("select * from gmfsdetailbook where id = ?", id);
+    }
 }

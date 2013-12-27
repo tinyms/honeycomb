@@ -1,5 +1,6 @@
 package com.tinyms.core;
 
+import com.tinyms.data.AccountHelper;
 import com.tinyms.point.IServerStartup;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
@@ -39,7 +40,9 @@ public class StartupServlet extends HttpServlet {
             e.printStackTrace();
         }
         ClassLoaderUtil.loadPlugins("com.tinyms");
+        Orm.self().close();
         Database.init();
+        AccountHelper.createRoot();
         //custom web server startup
         List<IServerStartup> iServerStartups = ClassLoaderUtil.getPlugin(IServerStartup.class);
         for (IServerStartup iServerStartup : iServerStartups) {

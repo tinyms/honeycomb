@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source source="LOCAL" name="SQL Server - gc_data@localhost" uuid="415e87ee-af44-481a-89f1-046e11c39e2d">
+    <database-info product="Microsoft SQL Server" version="10.50.1617" jdbc-version="4.0" driver-name="Microsoft JDBC Driver 4.0 for SQL Server" driver-version="4.0.2206.100">
+      <extra-name-characters>$#@</extra-name-characters>
+      <identifier-quote-string>&quot;</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed"/>
+    <schema name="dbo" catalog="GC_DATA"/>
+    <table name="Account" schema="dbo" catalog="GC_DATA" type="TABLE">
+      <column name="id" sqlType="bigint identity" length="19" precision="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="LoginID" sqlType="varchar" length="60" precision="0" nullable="false" jdbcType="12"/>
+      <column name="LoginPwd" sqlType="varchar" length="65" precision="0" nullable="false" jdbcType="12"/>
+      <column name="Name" sqlType="varchar" length="20" precision="0" nullable="false" jdbcType="12"/>
+      <column name="Email" sqlType="varchar" length="60" precision="0" nullable="true" jdbcType="12"/>
+      <column name="CreateTime" sqlType="datetime" length="23" precision="3" nullable="false" jdbcType="93"/>
+      <column name="LogonTime" sqlType="datetime" length="23" precision="3" nullable="true" jdbcType="93"/>
+      <column name="Status" sqlType="int" length="10" precision="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PK_Account" columns="id"/>
+      <index name="Uniq_LoginID" unique="true" columns="LoginID"/>
+    </table>
+    <table name="Detail" schema="dbo" catalog="GC_DATA" type="TABLE">
+      <column name="ID" sqlType="int identity" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="Extracted_Flag" sqlType="char" length="1" precision="0" nullable="true" jdbcType="1"/>
+      <column name="批准文号" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="产品名称" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="英文名称" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="商品名" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="剂型" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="规格" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="生产单位" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="生产地址" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="产品类别" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="原批准文号" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="批准日期" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="药品本位码" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="药品本位码备注" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <primary-key name="PK__Detail__3214EC2730F848ED" columns="ID"/>
+    </table>
+    <table name="List" schema="dbo" catalog="GC_DATA" type="TABLE">
+      <column name="ID" sqlType="int identity" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="Extracted_Flag" sqlType="char" length="1" precision="0" nullable="true" jdbcType="1"/>
+      <column name="Name" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="Anumbers" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="Factory" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="Url" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="Record_MD5_ID" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <primary-key name="PK__List__3214EC272D27B809" columns="ID"/>
+    </table>
+    <table name="archx_account" schema="dbo" catalog="GC_DATA" type="TABLE">
+      <column name="id" sqlType="int identity" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="login_name" sqlType="varchar" length="20" precision="0" nullable="false" jdbcType="12"/>
+      <column name="login_pwd" sqlType="varchar" length="60" precision="0" nullable="false" jdbcType="12"/>
+      <column name="enabled" sqlType="int" length="10" precision="0" nullable="false" jdbcType="4"/>
+      <column name="last_logon_time" sqlType="datetime" length="23" precision="3" nullable="true" jdbcType="93"/>
+      <column name="create_time" sqlType="datetime" length="23" precision="3" nullable="false" jdbcType="93"/>
+      <column name="archives_id" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PK__archx_ac__3213E83F793DFFAF" columns="id"/>
+      <foreign-key name="FK__archx_acc__archi__7E02B4CC" columns="archives_id" ref-table="archx_archives" ref-schema="dbo" ref-catalog="GC_DATA" ref-columns="id" update-rule="1" delete-rule="0" deferrability="2"/>
+      <exported-key name="FK__archx_rol__accou__1C873BEC" table="archx_role_account_relationships" schema="dbo" catalog="GC_DATA" columns="account_id"/>
+      <index name="UQ__archx_ac__F6D56B577C1A6C5A" unique="true" columns="login_name"/>
+    </table>
+    <table name="archx_archives" schema="dbo" catalog="GC_DATA" type="TABLE">
+      <column name="id" sqlType="int identity" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="code" sqlType="varchar" length="20" precision="0" nullable="true" jdbcType="12"/>
+      <column name="name" sqlType="varchar" length="20" precision="0" nullable="false" jdbcType="12"/>
+      <column name="alias" sqlType="varchar" length="20" precision="0" nullable="true" jdbcType="12"/>
+      <column name="sex" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="birthday" sqlType="date" length="10" precision="0" nullable="true" jdbcType="91"/>
+      <column name="weight" sqlType="numeric" length="2" precision="2" nullable="true" jdbcType="2"/>
+      <column name="height" sqlType="numeric" length="2" precision="2" nullable="true" jdbcType="2"/>
+      <column name="nation" sqlType="varchar" length="65" precision="0" nullable="true" jdbcType="12"/>
+      <column name="hometown" sqlType="varchar" length="10" precision="0" nullable="true" jdbcType="12"/>
+      <column name="vision" sqlType="numeric" length="2" precision="2" nullable="true" jdbcType="2"/>
+      <column name="post" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="health_state" sqlType="varchar" length="20" precision="0" nullable="true" jdbcType="12"/>
+      <column name="marital_status" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="id_card" sqlType="varchar" length="20" precision="0" nullable="true" jdbcType="12"/>
+      <column name="household_register" sqlType="varchar" length="100" precision="0" nullable="true" jdbcType="12"/>
+      <column name="educational_background" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="specialty" sqlType="varchar" length="60" precision="0" nullable="true" jdbcType="12"/>
+      <column name="last_leave_school" sqlType="varchar" length="30" precision="0" nullable="true" jdbcType="12"/>
+      <column name="political_landscape" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="profession_level" sqlType="varchar" length="30" precision="0" nullable="true" jdbcType="12"/>
+      <column name="hobby" sqlType="varchar" length="60" precision="0" nullable="true" jdbcType="12"/>
+      <column name="disposition" sqlType="varchar" length="60" precision="0" nullable="true" jdbcType="12"/>
+      <column name="strong_point" sqlType="varchar" length="60" precision="0" nullable="true" jdbcType="12"/>
+      <column name="comple_skills" sqlType="varchar" length="60" precision="0" nullable="true" jdbcType="12"/>
+      <column name="current_address" sqlType="varchar" length="250" precision="0" nullable="true" jdbcType="12"/>
+      <column name="current_address_phone" sqlType="varchar" length="60" precision="0" nullable="true" jdbcType="12"/>
+      <column name="employment_pathways" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="employment_referrals" sqlType="varchar" length="10" precision="0" nullable="true" jdbcType="12"/>
+      <column name="emergency_contact" sqlType="varchar" length="10" precision="0" nullable="true" jdbcType="12"/>
+      <column name="emergency_contact_phone" sqlType="varchar" length="20" precision="0" nullable="true" jdbcType="12"/>
+      <column name="email" sqlType="varchar" length="255" precision="0" nullable="true" jdbcType="12"/>
+      <column name="mobile_phone" sqlType="varchar" length="20" precision="0" nullable="true" jdbcType="12"/>
+      <column name="reward_punishment" sqlType="varchar" length="500" precision="0" nullable="true" jdbcType="12"/>
+      <column name="self_evaluation" sqlType="varchar" length="500" precision="0" nullable="true" jdbcType="12"/>
+      <column name="dream_job" sqlType="varchar" length="500" precision="0" nullable="true" jdbcType="12"/>
+      <column name="other_description" sqlType="varchar" length="500" precision="0" nullable="true" jdbcType="12"/>
+      <column name="org_id" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="join_date" sqlType="date" length="10" precision="0" nullable="true" jdbcType="91"/>
+      <column name="leave_date" sqlType="date" length="10" precision="0" nullable="true" jdbcType="91"/>
+      <primary-key name="PK__archx_ar__3213E83F6EC0713C" columns="id"/>
+      <exported-key name="FK__archx_acc__archi__7E02B4CC" table="archx_account" schema="dbo" catalog="GC_DATA" columns="archives_id"/>
+      <exported-key name="FK__archx_bpm__archi__078C1F06" table="archx_bpmprocessinstance" schema="dbo" catalog="GC_DATA" columns="archives_id"/>
+      <exported-key name="FK__archx_lea__archi__0D44F85C" table="archx_learningexperience" schema="dbo" catalog="GC_DATA" columns="archives_id"/>
+      <exported-key name="FK__archx_tra__archi__1A9EF37A" table="archx_trainingexperience" schema="dbo" catalog="GC_DATA" columns="archives_id"/>
+      <exported-key name="FK__archx_wor__archi__02C769E9" table="archx_workexperience" schema="dbo" catalog="GC_DATA" columns="archives_id"/>
+    </table>
+    <table name="archx_bpmprocessdef" schema="dbo" catalog="GC_DATA" type="TABLE">
+      <column name="id" sqlType="int identity" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="varchar" length="100" precision="0" nullable="false" jdbcType="12"/>
+      <column name="define" sqlType="text" length="2147483647" precision="0" nullable="false" jdbcType="-1"/>
+      <column name="release" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="security_point" sqlType="varchar" length="60" precision="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK__archx_bp__3213E83F6166761E" columns="id"/>
+      <exported-key name="FK__archx_bpm__bpmpr__0880433F" table="archx_bpmprocessinstance" schema="dbo" catalog="GC_DATA" columns="bpmprocessdef_id"/>
+      <index name="UQ__archx_bp__72E12F1B6442E2C9" unique="true" columns="name"/>
+    </table>
+    <table name="archx_bpmprocessinstance" schema="dbo" catalog="GC_DATA" type="TABLE">
+      <column name="id" sqlType="int identity" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="bin" sqlType="image" length="2147483647" precision="0" nullable="false" jdbcType="-4"/>
+      <column name="finish" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="start_time" sqlType="datetime" length="23" precision="3" nullable="false" jdbcType="93"/>
+      <column name="end_time" sqlType="datetime" length="23" precision="3" nullable="true" jdbcType="93"/>
+      <column name="archives_id" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="bpmprocessdef_id" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PK__archx_bp__3213E83F05A3D694" columns="id"/>
+      <foreign-key name="FK__archx_bpm__archi__078C1F06" columns="archives_id" ref-table="archx_archives" ref-schema="dbo" ref-catalog="GC_DATA" ref-columns="id" update-rule="1" delete-rule="0" deferrability="2"/>
+      <foreign-key name="FK__archx_bpm__bpmpr__0880433F" columns="bpmprocessdef_id" ref-table="archx_bpmprocessdef" ref-schema="dbo" ref-catalog="GC_DATA" ref-columns="id" update-rule="1" delete-rule="0" deferrability="2"/>
+      <exported-key name="FK__archx_bpm__bpmpr__2BC97F7C" table="archx_bpmprocessinstancenotify" schema="dbo" catalog="GC_DATA" columns="bpmprocessinstance_id"/>
+      <exported-key name="FK__archx_bpm__bpmpr__308E3499" table="archx_bpmprocessvars" schema="dbo" catalog="GC_DATA" columns="bpmprocessinstance_id"/>
+      <exported-key name="FK__archx_bpm__bpmpr__2704CA5F" table="archx_bpmworkflow" schema="dbo" catalog="GC_DATA" columns="bpmprocessinstance_id"/>
+      <exported-key name="FK__archx_bpm__bpmpr__22401542" table="archx_bpmworklist" schema="dbo" catalog="GC_DATA" columns="bpmprocessinstance_id"/>
+    </table>
+    <table name="archx_bpmprocessinstancenotify" schema="dbo" catalog="GC_DATA" type="TABLE">
+      <column name="id" sqlType="int identity" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="node_id" sqlType="int" length="10" precision="0" nullable="false" jdbcType="4"/>
+      <column name="tip_content" sqlType="text" length="2147483647" precision="0" nullable="false" jdbcType="-1"/>
+      <column name="result" sqlType="varchar" length="20" precision="0" nullable="true" jdbcType="12"/>
+      <column name="bpmprocessinstance_id" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PK__archx_bp__3213E83F29E1370A" columns="id"/>
+      <foreign-key name="FK__archx_bpm__bpmpr__2BC97F7C" columns="bpmprocessinstance_id" ref-table="archx_bpmprocessinstance" ref-schema="dbo" ref-catalog="GC_DATA" ref-columns="id" update-rule="1" delete-rule="0" deferrability="2"/>
+    </table>
+    <table name="archx_bpmprocessvars" schema="dbo" catalog="GC_DATA" type="TABLE">
+      <column name="id" sqlType="int identity" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="varchar" length="255" precision="0" nullable="false" jdbcType="12"/>
+      <column name="val" sqlType="text" length="2147483647" precision="0" nullable="true" jdbcType="-1"/>
+      <column name="bpmprocessinstance_id" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PK__archx_bp__3213E83F2EA5EC27" columns="id"/>
+      <foreign-key name="FK__archx_bpm__bpmpr__308E3499" columns="bpmprocessinstance_id" ref-table="archx_bpmprocessinstance" ref-schema="dbo" ref-catalog="GC_DATA" ref-columns="id" update-rule="1" delete-rule="0" deferrability="2"/>
+    </table>
+    <table name="archx_bpmworkflow" schema="dbo" catalog="GC_DATA" type="TABLE">
+      <column name="id" sqlType="int identity" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="node_id" sqlType="int" length="10" precision="0" nullable="false" jdbcType="4"/>
+      <column name="behavior" sqlType="varchar" length="20" precision="0" nullable="true" jdbcType="12"/>
+      <column name="params" sqlType="text" length="2147483647" precision="0" nullable="true" jdbcType="-1"/>
+      <column name="bpmprocessinstance_id" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PK__archx_bp__3213E83F251C81ED" columns="id"/>
+      <foreign-key name="FK__archx_bpm__bpmpr__2704CA5F" columns="bpmprocessinstance_id" ref-table="archx_bpmprocessinstance" ref-schema="dbo" ref-catalog="GC_DATA" ref-columns="id" update-rule="1" delete-rule="0" deferrability="2"/>
+    </table>
+    <table name="archx_bpmworklist" schema="dbo" catalog="GC_DATA" type="TABLE">
+      <column name="id" sqlType="int identity" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="task_name" sqlType="varchar" length="255" precision="0" nullable="false" jdbcType="12"/>
+      <column name="forms" sqlType="text" length="2147483647" precision="0" nullable="false" jdbcType="-1"/>
+      <column name="valid_time_space" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="expired" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="create_time" sqlType="datetime" length="23" precision="3" nullable="false" jdbcType="93"/>
+      <column name="finish_time" sqlType="datetime" length="23" precision="3" nullable="true" jdbcType="93"/>
+      <column name="worker" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="bpmprocessinstance_id" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PK__archx_bp__3213E83F2057CCD0" columns="id"/>
+      <foreign-key name="FK__archx_bpm__bpmpr__22401542" columns="bpmprocessinstance_id" ref-table="archx_bpmprocessinstance" ref-schema="dbo" ref-catalog="GC_DATA" ref-columns="id" update-rule="1" delete-rule="0" deferrability="2"/>
+    </table>
+    <table name="archx_learningexperience" schema="dbo" catalog="GC_DATA" type="TABLE">
+      <column name="id" sqlType="int identity" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="start_date" sqlType="date" length="10" precision="0" nullable="true" jdbcType="91"/>
+      <column name="end_date" sqlType="date" length="10" precision="0" nullable="true" jdbcType="91"/>
+      <column name="school_name" sqlType="varchar" length="60" precision="0" nullable="true" jdbcType="12"/>
+      <column name="specialized_field" sqlType="varchar" length="30" precision="0" nullable="true" jdbcType="12"/>
+      <column name="finished" sqlType="varchar" length="10" precision="0" nullable="true" jdbcType="12"/>
+      <column name="archives_id" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PK__archx_le__3213E83F0B5CAFEA" columns="id"/>
+      <foreign-key name="FK__archx_lea__archi__0D44F85C" columns="archives_id" ref-table="archx_archives" ref-schema="dbo" ref-catalog="GC_DATA" ref-columns="id" update-rule="1" delete-rule="0" deferrability="2"/>
+    </table>
+    <table name="archx_role" schema="dbo" catalog="GC_DATA" type="TABLE">
+      <column name="id" sqlType="int identity" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="varchar" length="60" precision="0" nullable="false" jdbcType="12"/>
+      <column name="description" sqlType="text" length="2147483647" precision="0" nullable="true" jdbcType="-1"/>
+      <primary-key name="PK__archx_ro__3213E83F540C7B00" columns="id"/>
+      <exported-key name="FK__archx_rol__role___1D7B6025" table="archx_role_account_relationships" schema="dbo" catalog="GC_DATA" columns="role_id"/>
+      <exported-key name="FK__archx_sec__role___0F2D40CE" table="archx_securitypoint_role_relationships" schema="dbo" catalog="GC_DATA" columns="role_id"/>
+      <index name="UQ__archx_ro__72E12F1B56E8E7AB" unique="true" columns="name"/>
+    </table>
+    <table name="archx_role_account_relationships" schema="dbo" catalog="GC_DATA" type="TABLE">
+      <column name="account_id" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="role_id" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <foreign-key name="FK__archx_rol__accou__1C873BEC" columns="account_id" ref-table="archx_account" ref-schema="dbo" ref-catalog="GC_DATA" ref-columns="id" update-rule="1" delete-rule="0" deferrability="2"/>
+      <foreign-key name="FK__archx_rol__role___1D7B6025" columns="role_id" ref-table="archx_role" ref-schema="dbo" ref-catalog="GC_DATA" ref-columns="id" update-rule="1" delete-rule="0" deferrability="2"/>
+    </table>
+    <table name="archx_securitypoint" schema="dbo" catalog="GC_DATA" type="TABLE">
+      <column name="id" sqlType="int identity" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="key_" sqlType="varchar" length="500" precision="0" nullable="false" jdbcType="12"/>
+      <column name="description" sqlType="text" length="2147483647" precision="0" nullable="true" jdbcType="-1"/>
+      <column name="group_" sqlType="varchar" length="60" precision="0" nullable="false" jdbcType="12"/>
+      <column name="category" sqlType="varchar" length="60" precision="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PK__archx_se__3213E83F681373AD" columns="id"/>
+      <exported-key name="FK__archx_sec__secur__10216507" table="archx_securitypoint_role_relationships" schema="dbo" catalog="GC_DATA" columns="securitypoint_id"/>
+      <index name="UQ__archx_se__2B3B21C56AEFE058" unique="true" columns="key_"/>
+    </table>
+    <table name="archx_securitypoint_role_relationships" schema="dbo" catalog="GC_DATA" type="TABLE">
+      <column name="role_id" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="securitypoint_id" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <foreign-key name="FK__archx_sec__role___0F2D40CE" columns="role_id" ref-table="archx_role" ref-schema="dbo" ref-catalog="GC_DATA" ref-columns="id" update-rule="1" delete-rule="0" deferrability="2"/>
+      <foreign-key name="FK__archx_sec__secur__10216507" columns="securitypoint_id" ref-table="archx_securitypoint" ref-schema="dbo" ref-catalog="GC_DATA" ref-columns="id" update-rule="1" delete-rule="0" deferrability="2"/>
+    </table>
+    <table name="archx_setting" schema="dbo" catalog="GC_DATA" type="TABLE">
+      <column name="id" sqlType="int identity" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="owner_" sqlType="varchar" length="20" precision="0" nullable="false" jdbcType="12"/>
+      <column name="val_" sqlType="text" length="2147483647" precision="0" nullable="true" jdbcType="-1"/>
+      <primary-key name="PK__archx_se__3213E83F5AB9788F" columns="id"/>
+      <index name="UQ__archx_se__2F8A919B5D95E53A" unique="true" columns="owner_"/>
+    </table>
+    <table name="archx_term" schema="dbo" catalog="GC_DATA" type="TABLE">
+      <column name="id" sqlType="int identity" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="varchar" length="20" precision="0" nullable="false" jdbcType="12"/>
+      <column name="slug" sqlType="varchar" length="20" precision="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PK__archx_te__3213E83F72910220" columns="id"/>
+      <exported-key name="FK__archx_ter__term___15DA3E5D" table="archx_termtaxonomy" schema="dbo" catalog="GC_DATA" columns="term_id"/>
+      <index name="UQ__archx_te__72E12F1B756D6ECB" unique="true" columns="name"/>
+    </table>
+    <table name="archx_termtaxonomy" schema="dbo" catalog="GC_DATA" type="TABLE">
+      <column name="id" sqlType="int identity" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="taxonomy" sqlType="varchar" length="60" precision="0" nullable="false" jdbcType="12"/>
+      <column name="path" sqlType="text" length="2147483647" precision="0" nullable="false" jdbcType="-1"/>
+      <column name="object_count" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="description" sqlType="text" length="2147483647" precision="0" nullable="true" jdbcType="-1"/>
+      <column name="parent_id" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="term_id" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PK__archx_te__3213E83F12FDD1B2" columns="id"/>
+      <foreign-key name="FK__archx_ter__term___15DA3E5D" columns="term_id" ref-table="archx_term" ref-schema="dbo" ref-catalog="GC_DATA" ref-columns="id" update-rule="1" delete-rule="0" deferrability="2"/>
+      <foreign-key name="FK__archx_ter__paren__14E61A24" columns="parent_id" ref-table="archx_termtaxonomy" ref-schema="dbo" ref-catalog="GC_DATA" ref-columns="id" update-rule="1" delete-rule="1" deferrability="2"/>
+      <exported-key name="FK__archx_ter__paren__14E61A24" table="archx_termtaxonomy" schema="dbo" catalog="GC_DATA" columns="parent_id"/>
+    </table>
+    <table name="archx_trainingexperience" schema="dbo" catalog="GC_DATA" type="TABLE">
+      <column name="id" sqlType="int identity" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="start_date" sqlType="date" length="10" precision="0" nullable="true" jdbcType="91"/>
+      <column name="end_date" sqlType="date" length="10" precision="0" nullable="true" jdbcType="91"/>
+      <column name="organization" sqlType="varchar" length="60" precision="0" nullable="true" jdbcType="12"/>
+      <column name="certificate" sqlType="varchar" length="60" precision="0" nullable="true" jdbcType="12"/>
+      <column name="archives_id" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PK__archx_tr__3213E83F18B6AB08" columns="id"/>
+      <foreign-key name="FK__archx_tra__archi__1A9EF37A" columns="archives_id" ref-table="archx_archives" ref-schema="dbo" ref-catalog="GC_DATA" ref-columns="id" update-rule="1" delete-rule="0" deferrability="2"/>
+    </table>
+    <table name="archx_workexperience" schema="dbo" catalog="GC_DATA" type="TABLE">
+      <column name="id" sqlType="int identity" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="start_date" sqlType="date" length="10" precision="0" nullable="true" jdbcType="91"/>
+      <column name="end_date" sqlType="date" length="10" precision="0" nullable="true" jdbcType="91"/>
+      <column name="work_unit" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12"/>
+      <column name="post" sqlType="varchar" length="30" precision="0" nullable="true" jdbcType="12"/>
+      <column name="archives_id" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PK__archx_wo__3213E83F00DF2177" columns="id"/>
+      <foreign-key name="FK__archx_wor__archi__02C769E9" columns="archives_id" ref-table="archx_archives" ref-schema="dbo" ref-catalog="GC_DATA" ref-columns="id" update-rule="1" delete-rule="0" deferrability="2"/>
+    </table>
+    <table name="gmfs_detail" schema="dbo" catalog="GC_DATA" type="TABLE">
+      <column name="ID" sqlType="int identity" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="Extracted_Flag" sqlType="char" length="1" precision="0" nullable="true" jdbcType="1"/>
+      <column name="产品名称" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="生产厂商" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="批准文号" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="储存" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="有效期" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="说明书修订日期" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="Url" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <primary-key name="PK__gmfs_det__3214EC273587F3E0" columns="ID"/>
+    </table>
+    <table name="gmfs_list" schema="dbo" catalog="GC_DATA" type="TABLE">
+      <column name="ID" sqlType="int identity" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="Extracted_Flag" sqlType="char" length="1" precision="0" nullable="true" jdbcType="1"/>
+      <column name="产品名称" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="Url" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="生产厂商" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <primary-key name="PK__gmfs_lis__3214EC271332DBDC" columns="ID"/>
+    </table>
+    <table name="gmfsdetailbook" schema="dbo" catalog="GC_DATA" type="TABLE">
+      <column name="id" sqlType="int identity" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="extracted_flag" sqlType="char" length="1" precision="0" nullable="true" jdbcType="1"/>
+      <column name="product_name" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="provider_name" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="index_no" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="build" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="func" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <column name="bak" sqlType="nvarchar" length="255" precision="0" nullable="true" jdbcType="-9"/>
+      <primary-key name="PK__gmfs_det__3214EC27503BEA1C" columns="id"/>
+    </table>
+  </data-source>
+</component>

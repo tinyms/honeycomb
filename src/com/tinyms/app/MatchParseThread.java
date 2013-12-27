@@ -28,7 +28,7 @@ public class MatchParseThread implements Runnable {
     private static Logger Log = Logger.getAnonymousLogger();
     public static List<Match> matches = new ArrayList<Match>();
     private String url;
-    private static boolean isHistory = false;
+    private static boolean isHistory = true;
 
     public String getUrl() {
         return url;
@@ -152,7 +152,7 @@ public class MatchParseThread implements Runnable {
     public void run() {
         if(isHistory){
             Date now = Calendar.getInstance().getTime();
-            for(int k=1;k<=5;k++){
+            for(int k=1;k<=100;k++){
                 Date next = DateUtils.addDays(now,-1*k);
                 String no = DateFormatUtils.format(next,"yyyy-MM-dd");
                 String url = String.format("http://www.okooo.com/livecenter/jingcai/?LotteryNo=%s",no);

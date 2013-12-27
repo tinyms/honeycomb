@@ -20,7 +20,6 @@ import java.util.logging.Logger;
 public class Database {
     private Logger Log = Logger.getAnonymousLogger();
     private static QueryRunner queryRunner = null;
-    private static ComboPooledDataSource ds = new ComboPooledDataSource();
 
     public static QueryRunner self() {
         return queryRunner;
@@ -33,7 +32,7 @@ public class Database {
 
     public static void init() {
         if (queryRunner == null) {
-            queryRunner = new QueryRunner(ds);
+            queryRunner = new QueryRunner(Orm.getDataSource());
         }
     }
 
