@@ -179,6 +179,8 @@ YUI().use("datatable", function (Y) {
             {key: "score", allowHTML: true, label: "比分"},
             {key: "client", label: "客队"}
         ],
+        scrollable: "y",
+        height:"350px",
         data: [],
         caption: "足彩胜负14场"
     });

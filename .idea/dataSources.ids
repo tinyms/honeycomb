@@ -295,4 +295,30 @@
       <primary-key name="PK__gmfs_det__3214EC27503BEA1C" columns="id"/>
     </table>
   </data-source>
+  <data-source source="LOCAL" name="SQL Server - football@localhost" uuid="2cb7b116-cd4a-436e-a914-750fe2be6559">
+    <database-info product="Microsoft SQL Server" version="10.50.1617" jdbc-version="4.0" driver-name="Microsoft JDBC Driver 4.0 for SQL Server" driver-version="4.0.2206.100">
+      <extra-name-characters>$#@</extra-name-characters>
+      <identifier-quote-string>&quot;</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed"/>
+    <schema name="dbo" catalog="football"/>
+    <table name="Account" schema="dbo" catalog="football" type="TABLE">
+      <column name="id" sqlType="bigint identity" length="19" precision="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="LoginID" sqlType="varchar" length="60" precision="0" nullable="false" jdbcType="12"/>
+      <column name="LoginPwd" sqlType="varchar" length="65" precision="0" nullable="false" jdbcType="12"/>
+      <column name="Name" sqlType="varchar" length="10" precision="0" nullable="false" jdbcType="12"/>
+      <column name="Email" sqlType="varchar" length="60" precision="0" nullable="true" jdbcType="12"/>
+      <column name="CreateTime" sqlType="datetime" length="23" precision="3" nullable="false" jdbcType="93"/>
+      <column name="LogonTime" sqlType="datetime" length="23" precision="3" nullable="true" jdbcType="93"/>
+      <column name="Status" sqlType="int" length="10" precision="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PK_Account" columns="id"/>
+      <index name="Uniq_LoginID" unique="true" columns="LoginID"/>
+    </table>
+    <table name="Match" schema="dbo" catalog="football" type="TABLE">
+      <column name="id" sqlType="bigint identity" length="19" precision="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="no" sqlType="nvarchar" length="50" precision="0" nullable="false" jdbcType="-9"/>
+      <column name="data" sqlType="ntext" length="1073741823" precision="0" nullable="false" jdbcType="-16"/>
+      <primary-key name="PK_match" columns="id"/>
+    </table>
+  </data-source>
 </component>

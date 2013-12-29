@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by tinyms on 13-12-22.
  */
-public class Match {
+public class MatchItem {
     private int id;
     private String season = "";
     private String main = "";

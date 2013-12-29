@@ -153,6 +153,9 @@
     </script>
 </head>
 <body class="yui3-skin-sam">
+    <div class="yui3-u">
+        <a class='yui3-button' style="margin-top:20px;" href="/hospital/users.html">用户管理</a>
+    </div>
     <div class="yui3-g">
         <div class="yui3-u-1" style="margin: 25px;"><input type="text" id="kw" style="width: 500px;"/>
             <button class='yui3-button' onclick="search(0);" id="parse_btn">搜索</button>

@@ -1,11 +1,10 @@
 package com.tinyms.app;
 
-import com.tinyms.core.Configuration;
-import com.tinyms.core.Database;
-import com.tinyms.core.Utils;
+import com.tinyms.core.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.hibernate.Session;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -26,9 +25,9 @@ import java.util.regex.Pattern;
  */
 public class MatchParseThread implements Runnable {
     private static Logger Log = Logger.getAnonymousLogger();
-    public static List<Match> matches = new ArrayList<Match>();
+    public static List<MatchItem> matches = new ArrayList<MatchItem>();
     private String url;
-    private static boolean isHistory = true;
+    private static boolean isHistory = false;
 
     public String getUrl() {
         return url;
@@ -57,7 +56,7 @@ public class MatchParseThread implements Runnable {
     }
 
 
-    private static List<Match> parse(String url) {
+    private static List<MatchItem> parse(String url) {
         Log.warning(url);
         List<List<String>> items = new ArrayList<List<String>>();
         matches.clear();
@@ -100,7 +99,7 @@ public class MatchParseThread implements Runnable {
             boolean b = Utils.batchDownloadHtml(urls, path);
             if (b) {
                 for (List<String> item : items) {
-                    Match m = new Match();
+                    MatchItem m = new MatchItem();
                     String f_name = String.format("http://www.okooo.com/soccer/match/%s/odds/", item.get(1));
                     doc = Jsoup.parse(new File(path + Utils.md5(f_name) + ".html"), "gb2312");
                     Elements scripts = doc.select("script[type=text/javascript]:not([src~=[a-zA-Z0-9./\\s]+)");
@@ -145,19 +144,31 @@ public class MatchParseThread implements Runnable {
     }
 
     public static void main(String[] args) {
-
+        List a = Orm.self().createQuery("from Match where id=33").list();
+        Utils.log(Utils.encode(a));
     }
 
     @Override
     public void run() {
         if(isHistory){
             Date now = Calendar.getInstance().getTime();
-            for(int k=1;k<=100;k++){
+            for(int k=90;k<=100;k++){
                 Date next = DateUtils.addDays(now,-1*k);
-                String no = DateFormatUtils.format(next,"yyyy-MM-dd");
+                final String no = DateFormatUtils.format(next,"yyyy-MM-dd");
                 String url = String.format("http://www.okooo.com/livecenter/jingcai/?LotteryNo=%s",no);
-                List<Match> matches1 = parse(url);
-                Database.insert("insert into match(no,data)values(?,?)",new Object[]{no,Utils.encode(matches1)});
+                final List<MatchItem> matches1 = parse(url);
+
+                Orm.persist(new ISession() {
+                    @Override
+                    public Object doInSession(Session session) {
+                        com.tinyms.entity.Match m = new com.tinyms.entity.Match();
+                        m.setNo(no);
+                        m.setData(Utils.encode(matches1));
+                        session.save(m);
+                        return null;
+                    }
+                });
+                //Database.insert("insert into match(no,data)values(?,?)", new Object[]{no, Utils.encode(matches1)});
             }
 
         }else{

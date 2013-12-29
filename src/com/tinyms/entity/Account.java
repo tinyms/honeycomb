@@ -7,6 +7,7 @@ import java.sql.Timestamp;
  * Created by tinyms on 13-12-27.
  */
 @Entity
+@Table(name = "Account")
 public class Account {
     private long id;
     private String loginId;
@@ -29,7 +30,7 @@ public class Account {
     }
 
     @Basic
-    @Column(name = "LoginID")
+    @Column(name = "LoginID", length = 60, nullable = false)
     public String getLoginId() {
         return loginId;
     }
@@ -39,7 +40,7 @@ public class Account {
     }
 
     @Basic
-    @Column(name = "LoginPwd")
+    @Column(name = "LoginPwd", length = 65, nullable = false)
     public String getLoginPwd() {
         return loginPwd;
     }
@@ -49,7 +50,7 @@ public class Account {
     }
 
     @Basic
-    @Column(name = "Name")
+    @Column(name = "Name", length = 30, nullable = false)
     public String getName() {
         return name;
     }
@@ -59,7 +60,7 @@ public class Account {
     }
 
     @Basic
-    @Column(name = "Email")
+    @Column(name = "Email", length = 60)
     public String getEmail() {
         return email;
     }
@@ -69,7 +70,7 @@ public class Account {
     }
 
     @Basic
-    @Column(name = "CreateTime")
+    @Column(name = "CreateTime", nullable = false)
     public Timestamp getCreateTime() {
         return createTime;
     }

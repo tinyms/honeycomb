@@ -15,6 +15,6 @@ public class HospitalView {
     }
     @Route(name = "users")
     public void users(HttpContext context){
-        context.render("hospital/index.ftl",null);
+        context.render("hospital/users.ftl",null);
     }
 }
