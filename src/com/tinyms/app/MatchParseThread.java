@@ -110,14 +110,19 @@ public class MatchParseThread implements Runnable {
                             break;
                         }
                     }
-                    m.setJf(parseJf(doc));
-                    m.setSeason(item.get(0));
-                    m.setId(Utils.parseInt(item.get(1), 0));
-                    m.setMain(item.get(2));
-                    m.setScore(item.get(3));
-                    m.setClient(item.get(4));
-                    m.setData(item.get(5));
-                    matches.add(m);
+                    try{
+                        m.setJf(parseJf(doc));
+                        m.setSeason(item.get(0));
+                        m.setId(Utils.parseInt(item.get(1), 0));
+                        m.setMain(item.get(2));
+                        m.setScore(item.get(3));
+                        m.setClient(item.get(4));
+                        m.setData(item.get(5));
+                        matches.add(m);
+                    }catch(IndexOutOfBoundsException e){
+                        Log.warning("IndexOutOfBoundsException: "+f_name);
+                    }
+
                 }
             }
 
@@ -152,7 +157,7 @@ public class MatchParseThread implements Runnable {
     public void run() {
         if(isHistory){
             Date now = Calendar.getInstance().getTime();
-            for(int k=90;k<=100;k++){
+            for(int k=250;k<=300;k++){
                 Date next = DateUtils.addDays(now,-1*k);
                 final String no = DateFormatUtils.format(next,"yyyy-MM-dd");
                 String url = String.format("http://www.okooo.com/livecenter/jingcai/?LotteryNo=%s",no);

@@ -1,25 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="2511115707">
-    <data-source source="LOCAL" name="SQL Server - gc_data@localhost" uuid="415e87ee-af44-481a-89f1-046e11c39e2d">
+  <component name="DataSourceManagerImpl" format="xml" hash="1832875447">
+    <data-source source="LOCAL" name="SQL Server - @localhost" uuid="d6bf6317-a4be-47c8-af73-592f63cfd3d7">
       <driver-ref>sqlserver.ms</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
-      <jdbc-url>jdbc:sqlserver://localhost:1433;databaseName=gc_data</jdbc-url>
+      <jdbc-url>jdbc:sqlserver://localhost:1433</jdbc-url>
       <user-name>sa</user-name>
       <user-password>df9b</user-password>
       <schema-pattern>GC_DATA.dbo</schema-pattern>
-      <libraries />
-    </data-source>
-    <data-source source="LOCAL" name="SQL Server - football@localhost" uuid="2cb7b116-cd4a-436e-a914-750fe2be6559">
-      <driver-ref>sqlserver.ms</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
-      <jdbc-url>jdbc:sqlserver://localhost:1433;databaseName=football</jdbc-url>
-      <user-name>sa</user-name>
-      <user-password>df9b</user-password>
-      <schema-pattern>football.dbo</schema-pattern>
-      <default-schemas>football.dbo</default-schemas>
+      <default-schemas>master.db_denydatareader</default-schemas>
       <libraries />
     </data-source>
   </component>

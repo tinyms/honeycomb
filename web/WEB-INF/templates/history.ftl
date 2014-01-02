@@ -132,13 +132,7 @@ function color_jf_row() {
         }
     });
 }
-function startup_parse_thread() {
-    $.post("/api/com.tinyms.app.310win/run", {"url": $("#url").val()}, function (data) {
-        //console.log(data);
-        $("#parse_btn").prop("disabled", true);
-        timer = setInterval(get_results, 5000);
-    }, "json");
-}
+
 function country(comId) {
     var countries = {};
     countries["14"] = "英国";
@@ -155,20 +149,37 @@ function country(comId) {
     countries["285"] = "荷兰";
     countries["59"] = "澳大利";//SportsTAB
     countries["43"] = "马耳他";//Interwetten
-    countries["182"] = "芬兰";//Veikkaus
-    countries["134"] = "冰岛";//Iceland
-    countries["105"] = "荷兰";//Bingoal
-    countries["125"] = "加拿大";//Fortuna
     return countries[comId];
 }
 function include(no) {
-    var makers = ["14", "82", "94", "35", "84", "27", "65", "59", "18", "25", "159", "170", "285","59","43","182","134","105","125"]
+    var makers = ["14", "82", "94", "35", "84", "27", "65", "59", "18", "25", "159", "170", "285","59","43"]
     for (var i = 0; i < makers.length; i++) {
         if (no == makers[i]) {
             return true;
         }
     }
     return false;
+}
+function no_change(elem){
+    var val = $(elem).val();
+    $.post("/api/com.tinyms.app.310win/history", {no:val}, function (data) {
+        console.log(data);
+        $.each(data, function (i, row) {
+            dataset.push({
+                id: row.id,
+                main: row.main,
+                client: row.client,
+                score: row.score,
+                season: row.season,
+                jf: row.jf,
+                data: eval(row.data)
+            });
+
+        });
+        console.log(dataset);
+        simple.setAttrs({data: dataset});
+
+    }, "json");
 }
 $(document).ready(function () {
 
@@ -302,9 +313,12 @@ YUI().use("datatable", function (Y) {
 <body class="yui3-skin-sam">
 
 <div class="yui3-g">
-    <div class="yui3-u-1" style="margin: 25px;"><input type="text" id="url" style="width: 500px;"
-                                                       value="http://www.okooo.com/livecenter/zucai/"/>
-        <button class='yui3-button' onclick="startup_parse_thread();" id="parse_btn">分析</button>
+    <div class="yui3-u-1" style="margin: 25px;">
+       期号:<select onchange="no_change(this);">
+        <#list noArr as no>
+        <option value="${no}">${no}</option>
+        </#list>
+       </select>
     </div>
 </div>
 <div class="yui3-g">

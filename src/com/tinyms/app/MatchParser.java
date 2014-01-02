@@ -3,6 +3,9 @@ package com.tinyms.app;
 
 import com.tinyms.core.Api;
 import com.tinyms.core.HttpContext;
+import com.tinyms.core.Orm;
+import com.tinyms.core.Utils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,5 +29,12 @@ public class MatchParser {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("result", MatchParseThread.matches);
         return result;
+    }
+
+    public Object history(HttpContext context){
+        String no = StringUtils.trimToEmpty(context.request.getParameter("no"));
+        String json = (String)Orm.self().createQuery("select data from Match where no=:no_")
+                .setParameter("no_", no).setMaxResults(1).uniqueResult();
+        return Utils.decode(json,MatchItem.class);
     }
 }
