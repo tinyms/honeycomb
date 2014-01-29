@@ -7,6 +7,8 @@ import freemarker.template.TemplateException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by tinyms on 13-12-18.
@@ -15,6 +17,7 @@ public class HttpContext {
     private static Configuration freemarkerConfiguration = new Configuration();
     public HttpServletRequest request;
     public HttpServletResponse response;
+    public List<String> plainParams = new ArrayList<String>();
 
     public void render(String tplPath, Object data) {
         try {

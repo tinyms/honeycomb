@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface WebView {
+public @interface WebModule {
     String name() default "";
 
     boolean auth() default false;

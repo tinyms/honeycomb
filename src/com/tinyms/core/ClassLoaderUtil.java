@@ -18,18 +18,23 @@ import java.util.jar.JarFile;
 import java.util.logging.Logger;
 
 public class ClassLoaderUtil {
-    private static Logger Log = Logger.getAnonymousLogger();
+    private final static Logger Log = Logger.getAnonymousLogger();
 
-    private static Map<String, Object> apiObjectPool = new HashMap<String, Object>();
-    private static Map<String, RouteTarget> routeObjectPool = new HashMap<String, RouteTarget>();
-    private static Map<String, List<Object>> plugins = new HashMap<String, List<Object>>();
+    private final static Map<String, Object> apiObjectPool = new HashMap<String, Object>();
+    private final static Map<String, RouteTarget> routeObjectPool = new HashMap<String, RouteTarget>();
+    private final static Map<String, List<Object>> plugins = new HashMap<String, List<Object>>();
 
     public static Object getApiObject(String key) {
         return apiObjectPool.get(key);
     }
 
-    public static RouteTarget getRouteObject(String key) {
-        return routeObjectPool.get(key);
+    public static RouteTarget getRouteObject(String path) {
+        for(String k : routeObjectPool.keySet()){
+            if(path.startsWith(k)){
+                return routeObjectPool.get(k);
+            }
+        }
+        return null;
     }
 
     public static <T> List<T> getPlugin(Class<T> cls) {
@@ -76,8 +81,8 @@ public class ClassLoaderUtil {
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
-            } else if (cls.isAnnotationPresent(WebView.class)) {
-                WebView view = (WebView) cls.getAnnotation(WebView.class);
+            } else if (cls.isAnnotationPresent(WebModule.class)) {
+                WebModule view = (WebModule) cls.getAnnotation(WebModule.class);
                 String moduleName = view.name();
                 String moduleUrl = "";
                 if (StringUtils.isNotBlank(moduleName)) {
@@ -97,6 +102,8 @@ public class ClassLoaderUtil {
                             }
 
                             RouteTarget target = new RouteTarget();
+                            target.setParamExtractor(route.paramExtractor());
+                            target.setParamPatterns(route.paramPatterns());
                             try {
                                 target.setTarget(cls.newInstance());
                             } catch (InstantiationException e) {
@@ -105,7 +112,7 @@ public class ClassLoaderUtil {
                                 e.printStackTrace();
                             }
                             target.setMethod(m);
-                            routeObjectPool.put(String.format("%s%s.html", moduleUrl, mappingUrl), target);
+                            routeObjectPool.put(String.format("%s%s", moduleUrl, mappingUrl), target);
                         }
                     }
                 }

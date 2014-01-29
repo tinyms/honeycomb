@@ -1,5 +1,7 @@
 package com.tinyms.core;
 
+import org.apache.commons.lang3.StringUtils;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,7 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by tinyms on 13-12-20.
@@ -32,23 +38,58 @@ public class WebViewServlet extends HttpServlet {
         PrintWriter pw = response.getWriter();
         String path = request.getServletPath();
         if (path == null) {
-            path = "/index.html";
+            path = "/index";
         }
         RouteTarget route = ClassLoaderUtil.getRouteObject(path);
         if (route != null) {
-            HttpContext context = new HttpContext();
-            context.request = request;
-            context.response = response;
-            try {
-                route.getMethod().invoke(route.getTarget(), context);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
+            boolean execute = true;
+            String text = "";
+            if (StringUtils.isNotBlank(route.getParamPatterns())) {
+                text = getParamsStringByPatterns(path, route.getParamPatterns());
+                if (StringUtils.isBlank(text)) {
+                    execute = false;
+                }
+            }
+            if (execute) {
+                HttpContext context = new HttpContext();
+                context.request = request;
+                context.response = response;
+                context.plainParams = getParams(text, route.getParamExtractor());
+                try {
+                    route.getMethod().invoke(route.getTarget(), context);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                pw.write("Params pattern err.");
             }
         } else {
-            pw.write("View not found.");
+            pw.write("Route not found.");
         }
         pw.close();
+    }
+
+    private static String getParamsStringByPatterns(String path, String re) {
+        Pattern pattern = Pattern.compile(re + "(?=\\.html)");
+        Matcher matcher = pattern.matcher(path);
+        if (matcher.find()) {
+            return matcher.group();
+        }
+        return "";
+    }
+
+    private static List<String> getParams(String paramsString, String re) {
+        List<String> params = new ArrayList<String>();
+        if (StringUtils.isBlank(paramsString)) {
+            return params;
+        }
+        Pattern pattern = Pattern.compile(re);
+        Matcher matcher = pattern.matcher(paramsString);
+        while (matcher.find()) {
+            params.add(matcher.group());
+        }
+        return params;
     }
 }

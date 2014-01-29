@@ -8,6 +8,8 @@ import java.lang.reflect.Method;
 public class RouteTarget {
     private Object target;
     private Method method;
+    private String paramPatterns;
+    private String paramExtractor;
 
     public Object getTarget() {
         return target;
@@ -23,5 +25,21 @@ public class RouteTarget {
 
     public void setMethod(Method method) {
         this.method = method;
+    }
+
+    public String getParamPatterns() {
+        return paramPatterns;
+    }
+
+    public void setParamPatterns(String paramPatterns) {
+        this.paramPatterns = paramPatterns;
+    }
+
+    public String getParamExtractor() {
+        return paramExtractor;
+    }
+
+    public void setParamExtractor(String paramExtractor) {
+        this.paramExtractor = paramExtractor;
     }
 }
