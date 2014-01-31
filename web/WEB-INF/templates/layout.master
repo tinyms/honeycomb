@@ -1,0 +1,5 @@
+{% block title %}
+{% block body %}
+${SiteUrl}
+<br/>
+${Version}

@@ -21,13 +21,18 @@ public class HttpContext {
 
     public void render(String tplPath, Object data) {
         try {
-            Template tpl = freemarkerConfiguration.getTemplate(tplPath, "utf-8");
+            String cacheTpl = Layout.compile(tplPath);
+            Template tpl = freemarkerConfiguration.getTemplate(cacheTpl, "utf-8");
             tpl.process(data, response.getWriter());
         } catch (IOException e) {
             e.printStackTrace();
         } catch (TemplateException e) {
             e.printStackTrace();
         }
+    }
+
+    public Object currentUser(){
+        return request.getSession().getAttribute("__CURRENT_USER__");
     }
 
     public void render(String text) {

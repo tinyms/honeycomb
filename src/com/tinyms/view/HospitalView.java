@@ -21,7 +21,7 @@ public class HospitalView {
     @Route(name = "test", paramPatterns = "\\w+-\\d+", paramExtractor = "\\w+")
     public void test(HttpContext context) {
         Log.info(Utils.encode(context.plainParams));
-        context.render("hospital/index.ftl", null);
+        context.render("hospital/test.ftl", null);
     }
 
     @Route(name = "users")

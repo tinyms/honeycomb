@@ -35,7 +35,7 @@ public class UploaderServlet extends HttpServlet {
         if (ServletFileUpload.isMultipartContent(req)) {
             Date today = Calendar.getInstance().getTime();
             String relativePath = "upload/" + DateFormatUtils.format(today, "yyyyMM") + "/" + DateFormatUtils.format(today, "dd") + "/";
-            String savePath = Configuration.WebAbsPath + relativePath + "/";
+            String savePath = HoneycombConfiguration.WebAbsPath + relativePath + "/";
             Utils.mkdirs(savePath);
             String indexJsp = savePath + "index.jsp";
             File jspFile = new File(indexJsp);
@@ -45,12 +45,12 @@ public class UploaderServlet extends HttpServlet {
             DiskFileItemFactory factory = new DiskFileItemFactory();
             // 设置 缓存的大小，当上传文件的容量超过该缓存时，直接放到 暂时存储室
             // 1024*1024 == 1M
-            factory.setSizeThreshold(Configuration.FileUploadSizeTempCache);
+            factory.setSizeThreshold(HoneycombConfiguration.FileUploadSizeTempCache);
             factory.setRepository(new File(savePath));
             // Create a new file upload handler
             ServletFileUpload upload = new ServletFileUpload(factory);
             // Set overall request size constraint
-            upload.setSizeMax(Configuration.FileUploadSizeLimit);//5M
+            upload.setSizeMax(HoneycombConfiguration.FileUploadSizeLimit);//5M
             UploadItem uploadItem = new UploadItem();
             try {
                 List<FileItem> files = upload.parseRequest(req);

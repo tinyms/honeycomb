@@ -4,6 +4,8 @@ import com.tinyms.data.AccountHelper;
 import com.tinyms.point.IServerStartup;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
+import freemarker.template.TemplateModelException;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.ServletConfig;
@@ -27,16 +29,31 @@ public class StartupServlet extends HttpServlet {
         super.init(config);
         Log.info("Honeycomb initing.");
         String path = config.getServletContext().getRealPath("/");
-        if (!StringUtils.endsWith(path, "/")) {
-            path = path + "/";
+        if (!StringUtils.endsWith(path, File.separator)) {
+            path = path + File.separator;
         }
-        com.tinyms.core.Configuration.PluginPackageNames.clear();
-        com.tinyms.core.Configuration.WebAbsPath = path;
+        HoneycombConfiguration.PluginPackageNames.clear();
+        HoneycombConfiguration.WebAbsPath = path;
+        HoneycombConfiguration.TemplatePath = path + "WEB-INF/templates/";
+        try {
+            String tplCachePath = String.format("%s%s", HoneycombConfiguration.TemplatePath, "cache");
+            FileUtils.deleteDirectory(new File(tplCachePath));
+            Utils.mkdirs(tplCachePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Configuration cfg = HttpContext.getFreemarkerConfiguration();
         try {
-            cfg.setDirectoryForTemplateLoading(new File(path + "WEB-INF/templates"));
+            cfg.setDirectoryForTemplateLoading(new File(HoneycombConfiguration.TemplatePath));
             cfg.setObjectWrapper(new DefaultObjectWrapper());
+            cfg.setDefaultEncoding("utf-8");
+            cfg.setDateFormat("yyyy-MM-dd");
+            cfg.setDateTimeFormat("yyyy-MM-dd hh:mm:ss");
+            cfg.setSharedVariable("SiteUrl", HoneycombConfiguration.SiteUrl);
+            cfg.setSharedVariable("Version", HoneycombConfiguration.Ver);
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TemplateModelException e) {
             e.printStackTrace();
         }
         ClassLoaderUtil.loadPlugins("com.tinyms");
@@ -48,7 +65,7 @@ public class StartupServlet extends HttpServlet {
         for (IServerStartup iServerStartup : iServerStartups) {
             iServerStartup.doInStartup(this);
         }
-        for (String packageName : com.tinyms.core.Configuration.PluginPackageNames) {
+        for (String packageName : HoneycombConfiguration.PluginPackageNames) {
             ClassLoaderUtil.loadPlugins(packageName);
         }
         Log.info("Honeycomb init completed.");

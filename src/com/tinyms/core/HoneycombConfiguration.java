@@ -6,12 +6,22 @@ import java.util.List;
 /**
  * Created by tinyms on 13-12-25.
  */
-public class Configuration {
+public class HoneycombConfiguration {
+    public static String Ver = "1.0";
 
+    public static String SiteUrl = "http://localhost:8080/";
     /**
      * WebApp absolute path
      */
     public static String WebAbsPath = "/";
+    /**
+     * template path
+     */
+    public static String TemplatePath = "/WEB-INF/templates/";
+    /**
+     * if recompile layout file to ftl
+     */
+    public static boolean CacheLayout = false;
     /**
      * Lucene index store root path
      */
