@@ -1,9 +1,9 @@
 package com.tinyms.view;
 
-import com.tinyms.core.HttpContext;
-import com.tinyms.core.Route;
-import com.tinyms.core.Utils;
-import com.tinyms.core.WebModule;
+import com.tinyms.web.HttpContext;
+import com.tinyms.web.Route;
+import com.tinyms.web.Utils;
+import com.tinyms.web.WebModule;
 
 import java.util.logging.Logger;
 

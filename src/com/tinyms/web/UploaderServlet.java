@@ -1,4 +1,4 @@
-package com.tinyms.core;
+package com.tinyms.web;
 
 import com.tinyms.point.IUploader;
 import org.apache.commons.fileupload.FileItem;

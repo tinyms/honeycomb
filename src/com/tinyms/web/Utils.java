@@ -1,4 +1,4 @@
-package com.tinyms.core;
+package com.tinyms.web;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

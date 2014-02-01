@@ -1,9 +1,9 @@
 package com.tinyms.api;
 
-import com.tinyms.core.Api;
-import com.tinyms.core.HttpContext;
-import com.tinyms.core.Orm;
-import com.tinyms.core.Utils;
+import com.tinyms.web.Api;
+import com.tinyms.web.HttpContext;
+import com.tinyms.data.Orm;
+import com.tinyms.web.Utils;
 import com.tinyms.data.AccountHelper;
 import com.tinyms.entity.Account;
 

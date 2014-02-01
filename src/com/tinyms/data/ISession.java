@@ -1,4 +1,4 @@
-package com.tinyms.core;
+package com.tinyms.data;
 
 import org.hibernate.Session;
 

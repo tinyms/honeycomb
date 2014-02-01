@@ -1,6 +1,8 @@
-package com.tinyms.core;
+package com.tinyms.web;
 
 import com.tinyms.data.AccountHelper;
+import com.tinyms.data.Database;
+import com.tinyms.data.Orm;
 import com.tinyms.point.IServerStartup;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;

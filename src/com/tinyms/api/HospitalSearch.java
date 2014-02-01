@@ -1,6 +1,9 @@
 package com.tinyms.api;
 
-import com.tinyms.core.*;
+import com.tinyms.data.Database;
+import com.tinyms.data.ILuceneSearch;
+import com.tinyms.data.LuceneUtil;
+import com.tinyms.web.*;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.search.highlight.Highlighter;

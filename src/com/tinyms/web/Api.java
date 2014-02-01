@@ -1,4 +1,4 @@
-package com.tinyms.core;
+package com.tinyms.web;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

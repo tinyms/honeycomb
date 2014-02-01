@@ -1,4 +1,4 @@
-package com.tinyms.core;
+package com.tinyms.web;
 
 /**
  * Created by tinyms on 13-12-25.

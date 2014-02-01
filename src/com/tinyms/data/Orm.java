@@ -1,4 +1,4 @@
-package com.tinyms.core;
+package com.tinyms.data;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.hibernate.Query;

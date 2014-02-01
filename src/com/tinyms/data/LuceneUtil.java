@@ -1,5 +1,6 @@
-package com.tinyms.core;
+package com.tinyms.data;
 
+import com.tinyms.web.Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;

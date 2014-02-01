@@ -1,9 +1,9 @@
 package com.tinyms.app;
 
-import com.tinyms.core.Database;
-import com.tinyms.core.ILuceneWriter;
-import com.tinyms.core.LuceneUtil;
-import com.tinyms.core.Utils;
+import com.tinyms.data.Database;
+import com.tinyms.data.ILuceneWriter;
+import com.tinyms.data.LuceneUtil;
+import com.tinyms.web.Utils;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.document.Document;

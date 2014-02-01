@@ -1,4 +1,4 @@
-package com.tinyms.core;
+package com.tinyms.web;
 
 import java.util.ArrayList;
 import java.util.HashMap;

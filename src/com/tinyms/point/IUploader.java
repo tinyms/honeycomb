@@ -1,6 +1,6 @@
 package com.tinyms.point;
 
-import com.tinyms.core.UploadItem;
+import com.tinyms.web.UploadItem;
 
 import java.util.Map;
 
