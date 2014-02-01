@@ -28,6 +28,7 @@ public class ClassLoaderUtil {
     /**
      * Route pool
      */
+    private final static Map<String, WebModuleTarget> webModulePool = new HashMap<String, WebModuleTarget>();
     private final static Map<String, RouteTarget> routeObjectPool = new HashMap<String, RouteTarget>();
     /**
      * Plugins pool
@@ -40,6 +41,10 @@ public class ClassLoaderUtil {
 
     public static FunctionTarget getApiFunction(String key) {
         return apiFunctionPool.get(key);
+    }
+
+    public static WebModuleTarget getWebModule(String key) {
+        return webModulePool.get(key);
     }
 
     public static RouteTarget getRouteObject(String path) {
@@ -121,6 +126,16 @@ public class ClassLoaderUtil {
                 moduleUrl = String.format("/%s", moduleName);
             }
         }
+        WebModuleTarget webModuleTarget = new WebModuleTarget();
+        webModuleTarget.setAuth(view.auth());
+        try {
+            webModuleTarget.setInstance(cls.newInstance());
+            webModulePool.put(cls.getName(), webModuleTarget);
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
         Method[] methods = cls.getDeclaredMethods();
         if (methods != null) {
             for (Method m : methods) {
@@ -140,13 +155,7 @@ public class ClassLoaderUtil {
                     target.setAuth(route.auth());
                     target.setParamExtractor(route.paramExtractor());
                     target.setParamPatterns(route.paramPatterns());
-                    try {
-                        target.setTarget(cls.newInstance());
-                    } catch (InstantiationException e) {
-                        e.printStackTrace();
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
+                    target.setClassName(cls.getName());
                     target.setMethod(m);
                     routeObjectPool.put(String.format("%s%s", moduleUrl, mappingUrl), target);
                 }

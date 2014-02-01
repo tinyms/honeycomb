@@ -42,6 +42,7 @@ public class WebViewServlet extends HttpServlet {
         }
         RouteTarget routeTarget = ClassLoaderUtil.getRouteObject(path);
         if (routeTarget != null) {
+            WebModuleTarget webModuleTarget = ClassLoaderUtil.getWebModule(routeTarget.getClassName());
             boolean execute = true;
             String text = "";
             if (StringUtils.isNotBlank(routeTarget.getParamPatterns())) {
@@ -56,7 +57,7 @@ public class WebViewServlet extends HttpServlet {
                 context.response = response;
                 context.plainParams = getParams(text, routeTarget.getParamExtractor());
                 try {
-                    routeTarget.getMethod().invoke(routeTarget.getTarget(), context);
+                    routeTarget.getMethod().invoke(webModuleTarget.getInstance(), context);
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 } catch (InvocationTargetException e) {

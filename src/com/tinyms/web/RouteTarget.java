@@ -6,18 +6,18 @@ import java.lang.reflect.Method;
  * Created by tinyms on 13-12-22.
  */
 public class RouteTarget {
-    private Object target;
+    private String className;
     private Method method;
     private String paramPatterns;
     private String paramExtractor;
     private boolean auth;
 
-    public Object getTarget() {
-        return target;
+    public String getClassName() {
+        return className;
     }
 
-    public void setTarget(Object target) {
-        this.target = target;
+    public void setClassName(String className) {
+        this.className = className;
     }
 
     public Method getMethod() {

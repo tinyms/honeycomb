@@ -230,5 +230,6 @@ public class Utils {
         //urls.add("http://www.okooo.com/livecenter/zucai/?LotteryNo=13182");
         //batchDownloadHtml(urls, "e:/");
         //setCache("/a/b", "dsdsdsd");
+        Log.info(Utils.class.getName());
     }
 }
