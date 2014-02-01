@@ -20,12 +20,26 @@ import java.util.logging.Logger;
 public class ClassLoaderUtil {
     private final static Logger Log = Logger.getAnonymousLogger();
 
-    private final static Map<String, Object> apiObjectPool = new HashMap<String, Object>();
+    /**
+     * Api pool
+     */
+    private final static Map<String, ApiTarget> apiObjectPool = new HashMap<String, ApiTarget>();
+    private final static Map<String, FunctionTarget> apiFunctionPool = new HashMap<String, FunctionTarget>();
+    /**
+     * Route pool
+     */
     private final static Map<String, RouteTarget> routeObjectPool = new HashMap<String, RouteTarget>();
+    /**
+     * Plugins pool
+     */
     private final static Map<String, List<Object>> plugins = new HashMap<String, List<Object>>();
 
-    public static Object getApiObject(String key) {
+    public static ApiTarget getApiObject(String key) {
         return apiObjectPool.get(key);
+    }
+
+    public static FunctionTarget getApiFunction(String key) {
+        return apiFunctionPool.get(key);
     }
 
     public static RouteTarget getRouteObject(String path) {
@@ -63,6 +77,83 @@ public class ClassLoaderUtil {
         }
     }
 
+    private static void parseApiClasses(Class cls){
+        try {
+            Api api = (Api) cls.getAnnotation(Api.class);
+            String key = api.name();
+
+            ApiTarget apiTarget = new ApiTarget();
+            apiTarget.setAuth(api.auth());
+            apiTarget.setInstance(cls.newInstance());
+            apiObjectPool.put(key, apiTarget);
+
+            Method[] methods = cls.getDeclaredMethods();
+            if(methods != null){
+                for(Method method : methods){
+                    if(method.getModifiers()==Modifier.PUBLIC && method.isAnnotationPresent(Function.class)){
+                        Function func = method.getAnnotation(Function.class);
+                        String name = func.name();
+                        boolean auth = func.auth();
+                        if(StringUtils.isBlank(name)){
+                            name = method.getName();
+                        }
+                        FunctionTarget functionTarget = new FunctionTarget();
+                        functionTarget.setAuth(auth);
+                        functionTarget.setMethod(method);
+                        apiFunctionPool.put(String.format("%s.%s", key, name), functionTarget);
+                    }
+                }
+            }
+
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void parseWebModule(Class cls){
+        WebModule view = (WebModule) cls.getAnnotation(WebModule.class);
+        String moduleName = view.name();
+        String moduleUrl = "";
+        if (StringUtils.isNotBlank(moduleName)) {
+            if(!moduleName.startsWith("/")){
+                moduleUrl = String.format("/%s", moduleName);
+            }
+        }
+        Method[] methods = cls.getDeclaredMethods();
+        if (methods != null) {
+            for (Method m : methods) {
+                if (m.getModifiers() == Modifier.PUBLIC && m.isAnnotationPresent(Route.class)) {
+                    Route route = m.getAnnotation(Route.class);
+                    String name = route.name();
+                    String mappingUrl = "";
+                    if (StringUtils.isNotBlank(name)) {
+                        if(!name.startsWith("/")){
+                            mappingUrl = String.format("/%s", name);
+                        }
+                    } else {
+                        mappingUrl = String.format("/%s", m.getName());
+                    }
+
+                    RouteTarget target = new RouteTarget();
+                    target.setAuth(route.auth());
+                    target.setParamExtractor(route.paramExtractor());
+                    target.setParamPatterns(route.paramPatterns());
+                    try {
+                        target.setTarget(cls.newInstance());
+                    } catch (InstantiationException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                    target.setMethod(m);
+                    routeObjectPool.put(String.format("%s%s", moduleUrl, mappingUrl), target);
+                }
+            }
+        }
+    }
+
     public static void loadPlugins(String packageName) {
         if ("com.tinyms".equals(packageName)) {
             apiObjectPool.clear();
@@ -71,51 +162,9 @@ public class ClassLoaderUtil {
         Set<Class<?>> classes = getClasses(packageName, true);
         for (Class cls : classes) {
             if (cls.isAnnotationPresent(Api.class)) {
-                Api api = (Api) cls.getAnnotation(Api.class);
-                String key = api.name();
-                try {
-                    //if key exists, throw exception????
-                    apiObjectPool.put(key, cls.newInstance());
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
+                parseApiClasses(cls);
             } else if (cls.isAnnotationPresent(WebModule.class)) {
-                WebModule view = (WebModule) cls.getAnnotation(WebModule.class);
-                String moduleName = view.name();
-                String moduleUrl = "";
-                if (StringUtils.isNotBlank(moduleName)) {
-                    moduleUrl = String.format("/%s", moduleName);
-                }
-                Method[] methods = cls.getDeclaredMethods();
-                if (methods != null) {
-                    for (Method m : methods) {
-                        if (m.getModifiers() == Modifier.PUBLIC && m.isAnnotationPresent(Route.class)) {
-                            Route route = m.getAnnotation(Route.class);
-                            String name = route.name();
-                            String mappingUrl;
-                            if (StringUtils.isNotBlank(name)) {
-                                mappingUrl = String.format("/%s", name);
-                            } else {
-                                mappingUrl = String.format("/%s", m.getName());
-                            }
-
-                            RouteTarget target = new RouteTarget();
-                            target.setParamExtractor(route.paramExtractor());
-                            target.setParamPatterns(route.paramPatterns());
-                            try {
-                                target.setTarget(cls.newInstance());
-                            } catch (InstantiationException e) {
-                                e.printStackTrace();
-                            } catch (IllegalAccessException e) {
-                                e.printStackTrace();
-                            }
-                            target.setMethod(m);
-                            routeObjectPool.put(String.format("%s%s", moduleUrl, mappingUrl), target);
-                        }
-                    }
-                }
+                parseWebModule(cls);
             } else {
                 Class<?>[] interfaces = cls.getInterfaces();
                 for (Class intertf : interfaces) {

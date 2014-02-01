@@ -49,14 +49,11 @@ public class Layout {
                 masterFileContent = masterFileContent.replaceAll("\\{%\\s*" + key + "\\s*%\\}", blocks.get(key));
             }
             FileUtils.writeStringToFile(cacheFile, masterFileContent, "utf-8");
+            return String.format("cache/%s", cacheFileName);
             //Log.info(Utils.encode(blocks));
             //Log.info(masterFileContent);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
-        if (cacheFile.exists()) {
-            return String.format("cache/%s", cacheFileName);
         }
 
         return "";

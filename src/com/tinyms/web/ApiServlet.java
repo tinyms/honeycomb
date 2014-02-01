@@ -50,29 +50,53 @@ public class ApiServlet extends HttpServlet {
             if (methods.size() == 2) {
                 String key = methods.get(0);
                 String method = methods.get(1);
-                Object target = ClassLoaderUtil.getApiObject(key);
-                if (target != null) {
-                    try {
-                        //is cache??
-                        Method m = target.getClass().getMethod(method, HttpContext.class);
-                        if (m.getModifiers() == Modifier.PUBLIC) {
-                            HttpContext context = new HttpContext();
-                            context.request = request;
-                            context.response = response;
-                            Object result = m.invoke(target, context);
-                            Gson json = new Gson();
-                            pw.println(json.toJson(result));
+                ApiTarget apiTarget = ClassLoaderUtil.getApiObject(key);
+                if (apiTarget != null) {
+                    //valid user auth.
+                    boolean next = true;
+
+                    if(apiTarget.isAuth()){
+                        if(request.getSession().getAttribute(HttpContext.SESSION_CURRENT_USER)==null){
+                            ApiResult r = new ApiResult();
+                            r.setSuccess(false);
+                            r.setMessage("UnAuth");
+                            r.setData("");
+                            pw.println(Utils.encode(r));
+                            next = false;
                         }
-                    } catch (NoSuchMethodException e) {
-                        Log.warning("NoSuchMethodException");
-                        ErrorMessage(pw);
-                    } catch (InvocationTargetException e) {
-                        e.printStackTrace();
-                        ErrorMessage(pw);
-                    } catch (IllegalAccessException e) {
-                        Log.warning("IllegalAccessException");
-                        ErrorMessage(pw);
                     }
+                    if(next){
+                        try {
+                            FunctionTarget functionTarget = ClassLoaderUtil.getApiFunction(String.format("%s.%s",key,method));
+                            if(functionTarget!=null){
+                                if(functionTarget.isAuth()){
+                                    if(request.getSession().getAttribute(HttpContext.SESSION_CURRENT_USER)==null){
+                                        ApiResult r = new ApiResult();
+                                        r.setSuccess(false);
+                                        r.setMessage("UnAuth");
+                                        r.setData("");
+                                        pw.println(Utils.encode(r));
+                                        next = false;
+                                    }
+                                }
+                                if(next){
+                                    HttpContext context = new HttpContext();
+                                    context.request = request;
+                                    context.response = response;
+                                    Object result = functionTarget.getMethod().invoke(apiTarget.getInstance(), context);
+                                    pw.println(Utils.encode(result));
+                                }
+
+                            }
+                        }catch (InvocationTargetException e) {
+                            Log.warning("InvocationTargetException");
+                            ErrorMessage(pw);
+                        } catch (IllegalAccessException e) {
+                            Log.warning("IllegalAccessException");
+                            ErrorMessage(pw);
+                        }
+                    }
+
                 } else {
                     ErrorMessage(pw);
                 }
@@ -86,7 +110,10 @@ public class ApiServlet extends HttpServlet {
     }
 
     private static void ErrorMessage(PrintWriter pw) {
-        Gson json = new Gson();
-        pw.println(json.toJson("Error"));
+        ApiResult r = new ApiResult();
+        r.setSuccess(false);
+        r.setMessage("Error");
+        r.setData("");
+        pw.println(Utils.encode(r));
     }
 }

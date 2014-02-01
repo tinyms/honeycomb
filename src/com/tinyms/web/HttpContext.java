@@ -6,6 +6,7 @@ import freemarker.template.TemplateException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,9 @@ import java.util.List;
  * Created by tinyms on 13-12-18.
  */
 public class HttpContext {
+    //const key
+    public final static String SESSION_CURRENT_USER = "__CURRENT_USER__";
+    //
     private static Configuration freemarkerConfiguration = new Configuration();
     public HttpServletRequest request;
     public HttpServletResponse response;
@@ -32,7 +36,7 @@ public class HttpContext {
     }
 
     public Object currentUser(){
-        return request.getSession().getAttribute("__CURRENT_USER__");
+        return request.getSession().getAttribute(SESSION_CURRENT_USER);
     }
 
     public void render(String text) {

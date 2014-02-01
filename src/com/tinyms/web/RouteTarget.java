@@ -10,6 +10,7 @@ public class RouteTarget {
     private Method method;
     private String paramPatterns;
     private String paramExtractor;
+    private boolean auth;
 
     public Object getTarget() {
         return target;
@@ -41,5 +42,13 @@ public class RouteTarget {
 
     public void setParamExtractor(String paramExtractor) {
         this.paramExtractor = paramExtractor;
+    }
+
+    public boolean isAuth() {
+        return auth;
+    }
+
+    public void setAuth(boolean auth) {
+        this.auth = auth;
     }
 }

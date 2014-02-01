@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 /**
  * Created by tinyms on 13-12-27.
  */
-@WebModule(name = "hospital")
+@WebModule(name = "/hospital")
 public class HospitalView {
     private final static Logger Log = Logger.getAnonymousLogger();
     @Route(name = "index")
@@ -18,7 +18,7 @@ public class HospitalView {
         context.render("hospital/index.ftl", null);
     }
 
-    @Route(name = "test", paramPatterns = "\\w+-\\d+", paramExtractor = "\\w+")
+    @Route(name = "/test/mutilanguage", paramPatterns = "\\w+-\\d+", paramExtractor = "\\w+")
     public void test(HttpContext context) {
         Log.info(Utils.encode(context.plainParams));
         context.render("hospital/test.ftl", null);

@@ -40,12 +40,12 @@ public class WebViewServlet extends HttpServlet {
         if (path == null) {
             path = "/index";
         }
-        RouteTarget route = ClassLoaderUtil.getRouteObject(path);
-        if (route != null) {
+        RouteTarget routeTarget = ClassLoaderUtil.getRouteObject(path);
+        if (routeTarget != null) {
             boolean execute = true;
             String text = "";
-            if (StringUtils.isNotBlank(route.getParamPatterns())) {
-                text = getParamsStringByPatterns(path, route.getParamPatterns());
+            if (StringUtils.isNotBlank(routeTarget.getParamPatterns())) {
+                text = getParamsStringByPatterns(path, routeTarget.getParamPatterns());
                 if (StringUtils.isBlank(text)) {
                     execute = false;
                 }
@@ -54,9 +54,9 @@ public class WebViewServlet extends HttpServlet {
                 HttpContext context = new HttpContext();
                 context.request = request;
                 context.response = response;
-                context.plainParams = getParams(text, route.getParamExtractor());
+                context.plainParams = getParams(text, routeTarget.getParamExtractor());
                 try {
-                    route.getMethod().invoke(route.getTarget(), context);
+                    routeTarget.getMethod().invoke(routeTarget.getTarget(), context);
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 } catch (InvocationTargetException e) {

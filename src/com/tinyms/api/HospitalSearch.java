@@ -17,6 +17,7 @@ import java.util.Map;
 
 @Api(name = "com.tinyms.hospital.doc")
 public class HospitalSearch {
+    @Function()
     public Object search(HttpContext context) {
         int page = Utils.parseInt(context.request.getParameter("page"), 1);
         int limit = Utils.parseInt(context.request.getParameter("limit"), 20);
@@ -44,7 +45,7 @@ public class HospitalSearch {
             }
         });
     }
-
+    @Function()
     public Object view(HttpContext context){
         final int id = Utils.parseInt(context.request.getParameter("id"),0);
         return Database.findFirst("select * from gmfsdetailbook where id = ?", id);
