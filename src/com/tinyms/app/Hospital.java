@@ -3,7 +3,6 @@ package com.tinyms.app;
 import com.tinyms.data.Database;
 import com.tinyms.data.ILuceneWriter;
 import com.tinyms.data.LuceneUtil;
-import com.tinyms.web.Utils;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.document.Document;
@@ -11,6 +10,7 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
+import tornadoj.web.Utils;
 
 import java.io.IOException;
 import java.io.StringReader;

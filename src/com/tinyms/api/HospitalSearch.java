@@ -3,10 +3,13 @@ package com.tinyms.api;
 import com.tinyms.data.Database;
 import com.tinyms.data.ILuceneSearch;
 import com.tinyms.data.LuceneUtil;
-import com.tinyms.web.*;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.search.highlight.Highlighter;
+import tornadoj.web.Api;
+import tornadoj.web.Function;
+import tornadoj.web.HttpContext;
+import tornadoj.web.Utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,9 +48,10 @@ public class HospitalSearch {
             }
         });
     }
+
     @Function()
-    public Object view(HttpContext context){
-        final int id = Utils.parseInt(context.request.getParameter("id"),0);
+    public Object view(HttpContext context) {
+        final int id = Utils.parseInt(context.request.getParameter("id"), 0);
         return Database.findFirst("select * from gmfsdetailbook where id = ?", id);
     }
 }

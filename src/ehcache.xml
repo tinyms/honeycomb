@@ -18,7 +18,8 @@ Here is an example of CacheManager level resource tuning, which will use up to 4
          updateCheck="true" monitoring="autodetect"
          dynamicConfig="true">
 
-    <diskStore path="d:/web-cache/"/>
+    <!--java.io.tmpdir-->
+    <diskStore path="java.io.tmpdir"/>
 
     <cacheManagerPeerProviderFactory
             class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
@@ -43,7 +44,7 @@ Here is an example of CacheManager level resource tuning, which will use up to 4
         <persistence strategy="localTempSwap"/>
     </defaultCache>
 
-    <cache name="honeycomb"
+    <cache name="tornadoj"
            maxEntriesLocalHeap="1000"
            eternal="false"
            overflowToDisk="true"

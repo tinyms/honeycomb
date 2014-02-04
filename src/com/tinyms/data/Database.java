@@ -1,7 +1,6 @@
 package com.tinyms.data;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
-import com.tinyms.data.Orm;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.*;
 import org.apache.commons.lang3.ArrayUtils;

@@ -5,6 +5,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.internal.SessionImpl;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.service.ServiceRegistry;
@@ -14,7 +15,6 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.util.Map;
 import java.util.Properties;
-import org.hibernate.cfg.Configuration;
 
 /**
  * Created by tinyms on 13-12-27.
@@ -23,6 +23,7 @@ public class Orm {
     private static final SessionFactory ourSessionFactory;
     private static final ServiceRegistry serviceRegistry;
     private static ComboPooledDataSource c3p0DataSource = new ComboPooledDataSource();
+
     static {
         try {
             Configuration configuration = new Configuration();
@@ -45,32 +46,32 @@ public class Orm {
         }
     }
 
-    public static DataSource getDataSource(){
+    public static DataSource getDataSource() {
         return c3p0DataSource;
     }
 
-    public static Connection getConnection(){
-        return ((SessionImpl)ourSessionFactory.openSession()).connection();
+    public static Connection getConnection() {
+        return ((SessionImpl) ourSessionFactory.openSession()).connection();
     }
 
-    public static Session self(){
+    public static Session self() {
         return ourSessionFactory.openSession();
     }
 
-    public static Object persist(ISession iSession){
+    public static Object persist(ISession iSession) {
         Session ss = self();
         Object result = null;
         Transaction tx = null;
-        try{
+        try {
             tx = ss.beginTransaction();
             result = iSession.doInSession(ss);
             tx.commit();
-        }catch (RuntimeException e){
-            if(tx!=null){
+        } catch (RuntimeException e) {
+            if (tx != null) {
                 tx.rollback();
             }
             throw e;
-        }finally {
+        } finally {
             ss.close();
         }
         return result;

@@ -1,6 +1,5 @@
 package com.tinyms.data;
 
-import com.tinyms.web.Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -13,6 +12,7 @@ import org.apache.lucene.search.highlight.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
+import tornadoj.web.Utils;
 
 import java.io.File;
 import java.io.IOException;
