@@ -20,6 +20,6 @@ public class HospitalServerStartup implements IServerStartup {
         Hospital.create_indexer();
         Orm.self().close();
         Database.init();
-        AccountHelper.createRoot();
+        //AccountHelper.createRoot();
     }
 }

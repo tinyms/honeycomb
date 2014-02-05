@@ -19,4 +19,54 @@
       <primary-key name="PK__Account__3213E83F7F60ED59" columns="id"/>
     </table>
   </data-source>
+  <data-source source="LOCAL" name="MySQL - test@localhost" uuid="b5df5417-a6a9-499a-a3f1-10b87a685829">
+    <database-info product="MySQL" version="5.6.14-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.26 ( Revision: ${bzr.revision-id} )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <schema name="" catalog="test"/>
+    <table name="ad" schema="" catalog="test" type="TABLE">
+      <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="CompanyId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
+      <column name="ValidStartTime" sqlType="TIME" length="8" precision="0" nullable="true" jdbcType="92"/>
+      <column name="ValidEndTime" sqlType="TIME" length="8" precision="0" nullable="true" jdbcType="92"/>
+      <column name="ImgPath" sqlType="VARCHAR" length="255" precision="0" nullable="false" jdbcType="12"/>
+      <column name="PlayNum" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
+      <column name="Kind" sqlType="VARCHAR" length="20" precision="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="call" schema="" catalog="test" type="TABLE">
+      <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="CompanyId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
+      <column name="CallNo" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
+      <column name="Category" sqlType="VARCHAR" length="20" precision="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="company" schema="" catalog="test" type="TABLE">
+      <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="Name" sqlType="VARCHAR" length="100" precision="0" nullable="false" jdbcType="12"/>
+      <column name="Email" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
+      <column name="Phone" sqlType="VARCHAR" length="20" precision="0" nullable="false" jdbcType="12"/>
+      <column name="Address" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
+      <column name="AppKey" sqlType="VARCHAR" length="65" precision="0" nullable="true" jdbcType="12"/>
+      <column name="BusinessCategory" sqlType="TEXT" length="65535" precision="0" nullable="true" jdbcType="-1"/>
+      <column name="ClientType" sqlType="VARCHAR" length="20" precision="0" nullable="false" jdbcType="12"/>
+      <column name="Cost" sqlType="DECIMAL" length="2" precision="2" nullable="true" jdbcType="3"/>
+      <column name="CostTime" sqlType="DATETIME" length="19" precision="0" nullable="true" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="user" schema="" catalog="test" type="TABLE">
+      <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="LoginId" sqlType="VARCHAR" length="60" precision="0" nullable="true" jdbcType="12"/>
+      <column name="LoginPwd" sqlType="VARCHAR" length="65" precision="0" nullable="false" jdbcType="12"/>
+      <column name="Email" sqlType="VARCHAR" length="255" precision="0" nullable="false" jdbcType="12"/>
+      <column name="Status" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
+      <column name="Role" sqlType="VARCHAR" length="10" precision="0" nullable="false" jdbcType="12"/>
+      <column name="LastAccessTime" sqlType="DATETIME" length="19" precision="0" nullable="true" jdbcType="93"/>
+      <column name="CreateTime" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <index name="LoginId_UNIQUE" unique="true" columns="LoginId"/>
+    </table>
+  </data-source>
 </component>

@@ -4,14 +4,10 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="connection.url">jdbc:sqlserver://localhost:1433;databaseName= temp</property>
-        <property name="connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
-        <property name="connection.username">sa</property>
-        <property name="connection.password">1</property>
-        <!--property name="connection.url">jdbc:mysql://localhost:3306/football</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/test</property>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="connection.username">root</property>
-        <property name="connection.password">root</property-->
+        <property name="connection.password">root</property>
         <property name="c3p0.max_size">20</property>
         <property name="c3p0.min_size">5</property>
         <property name="c3p0.acquire_increment">3</property>
@@ -19,6 +15,9 @@
         <property name="c3p0.timeout">1800</property>
         <property name="hbm2ddl.auto">update</property>
         <property name="show_sql">true</property>
-        <mapping class="com.tinyms.entity.Account"/>
+        <mapping class="com.tinyms.entity.Ad"/>
+        <mapping class="com.tinyms.entity.Call"/>
+        <mapping class="com.tinyms.entity.Company"/>
+        <mapping class="com.tinyms.entity.User"/>
     </session-factory>
 </hibernate-configuration>
