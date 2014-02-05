@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="1909141753">
-    <data-source source="LOCAL" name="SQL Server - temp@localhost" uuid="025d6507-da47-4684-9bbc-627ec1e66169">
-      <driver-ref>sqlserver.ms</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
-      <jdbc-url>jdbc:sqlserver://localhost:1433;databaseName=temp</jdbc-url>
-      <user-name>sa</user-name>
-      <user-password>df9b</user-password>
-      <schema-pattern>temp.dbo</schema-pattern>
-      <libraries />
-    </data-source>
+  <component name="DataSourceManagerImpl" format="xml" hash="4232919275">
     <data-source source="LOCAL" name="MySQL - test@localhost" uuid="b5df5417-a6a9-499a-a3f1-10b87a685829">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>

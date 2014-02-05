@@ -6,11 +6,11 @@ import javax.persistence.*;
  * Created by tinyms on 14-2-5.
  */
 @Entity
-public class Call {
+public class CallOrder {
     private int id;
-    private int companyId;
     private int callNo;
     private String category;
+    private Company company;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,14 +23,14 @@ public class Call {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "CompanyId")
-    public int getCompanyId() {
-        return companyId;
+    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.REFRESH}, optional = true)
+    @JoinColumn(name = "CompanyId")
+    public Company getCompany() {
+        return company;
     }
 
-    public void setCompanyId(int companyId) {
-        this.companyId = companyId;
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
     @Basic
@@ -58,12 +58,11 @@ public class Call {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Call call = (Call) o;
+        CallOrder callOrder = (CallOrder) o;
 
-        if (callNo != call.callNo) return false;
-        if (companyId != call.companyId) return false;
-        if (id != call.id) return false;
-        if (category != null ? !category.equals(call.category) : call.category != null) return false;
+        if (callNo != callOrder.callNo) return false;
+        if (id != callOrder.id) return false;
+        if (category != null ? !category.equals(callOrder.category) : callOrder.category != null) return false;
 
         return true;
     }
@@ -71,7 +70,6 @@ public class Call {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + companyId;
         result = 31 * result + callNo;
         result = 31 * result + (category != null ? category.hashCode() : 0);
         return result;

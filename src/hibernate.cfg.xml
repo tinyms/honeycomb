@@ -16,7 +16,7 @@
         <property name="hbm2ddl.auto">update</property>
         <property name="show_sql">true</property>
         <mapping class="com.tinyms.entity.Ad"/>
-        <mapping class="com.tinyms.entity.Call"/>
+        <mapping class="com.tinyms.entity.CallOrder"/>
         <mapping class="com.tinyms.entity.Company"/>
         <mapping class="com.tinyms.entity.User"/>
     </session-factory>

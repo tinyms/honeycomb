@@ -6,15 +6,16 @@ import java.sql.Time;
 /**
  * Created by tinyms on 14-2-5.
  */
+
 @Entity
 public class Ad {
     private int id;
-    private int companyId;
     private Time validStartTime;
     private Time validEndTime;
     private String imgPath;
     private int playNum;
     private String kind;
+    private Company company;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,14 +28,14 @@ public class Ad {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "CompanyId")
-    public int getCompanyId() {
-        return companyId;
+    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.REFRESH}, optional = true)
+    @JoinColumn(name = "CompanyId")
+    public Company getCompany() {
+        return company;
     }
 
-    public void setCompanyId(int companyId) {
-        this.companyId = companyId;
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
     @Basic
@@ -94,7 +95,6 @@ public class Ad {
 
         Ad ad = (Ad) o;
 
-        if (companyId != ad.companyId) return false;
         if (id != ad.id) return false;
         if (playNum != ad.playNum) return false;
         if (imgPath != null ? !imgPath.equals(ad.imgPath) : ad.imgPath != null) return false;
@@ -109,7 +109,6 @@ public class Ad {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + companyId;
         result = 31 * result + (validStartTime != null ? validStartTime.hashCode() : 0);
         result = 31 * result + (validEndTime != null ? validEndTime.hashCode() : 0);
         result = 31 * result + (imgPath != null ? imgPath.hashCode() : 0);

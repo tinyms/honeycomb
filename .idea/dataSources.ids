@@ -1,24 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
-  <data-source source="LOCAL" name="SQL Server - temp@localhost" uuid="025d6507-da47-4684-9bbc-627ec1e66169">
-    <database-info product="Microsoft SQL Server" version="10.50.1600" jdbc-version="4.0" driver-name="Microsoft JDBC Driver 4.0 for SQL Server" driver-version="4.0.2206.100">
-      <extra-name-characters>$#@</extra-name-characters>
-      <identifier-quote-string>&quot;</identifier-quote-string>
-    </database-info>
-    <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed"/>
-    <schema name="dbo" catalog="temp"/>
-    <table name="Account" schema="dbo" catalog="temp" type="TABLE">
-      <column name="id" sqlType="bigint identity" length="19" precision="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
-      <column name="CreateTime" sqlType="datetime2" length="27" precision="7" nullable="false" jdbcType="93"/>
-      <column name="Email" sqlType="varchar" length="60" precision="0" nullable="true" jdbcType="12"/>
-      <column name="LoginID" sqlType="varchar" length="60" precision="0" nullable="false" jdbcType="12"/>
-      <column name="LoginPwd" sqlType="varchar" length="65" precision="0" nullable="false" jdbcType="12"/>
-      <column name="LogonTime" sqlType="datetime2" length="27" precision="7" nullable="true" jdbcType="93"/>
-      <column name="Name" sqlType="varchar" length="30" precision="0" nullable="false" jdbcType="12"/>
-      <column name="Status" sqlType="int" length="10" precision="0" nullable="true" jdbcType="4"/>
-      <primary-key name="PK__Account__3213E83F7F60ED59" columns="id"/>
-    </table>
-  </data-source>
   <data-source source="LOCAL" name="MySQL - test@localhost" uuid="b5df5417-a6a9-499a-a3f1-10b87a685829">
     <database-info product="MySQL" version="5.6.14-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.26 ( Revision: ${bzr.revision-id} )">
       <extra-name-characters>#@</extra-name-characters>
@@ -28,45 +9,48 @@
     <schema name="" catalog="test"/>
     <table name="ad" schema="" catalog="test" type="TABLE">
       <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="CompanyId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
-      <column name="ValidStartTime" sqlType="TIME" length="8" precision="0" nullable="true" jdbcType="92"/>
+      <column name="ImgPath" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
+      <column name="Kind" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
+      <column name="PlayNum" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
       <column name="ValidEndTime" sqlType="TIME" length="8" precision="0" nullable="true" jdbcType="92"/>
-      <column name="ImgPath" sqlType="VARCHAR" length="255" precision="0" nullable="false" jdbcType="12"/>
-      <column name="PlayNum" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
-      <column name="Kind" sqlType="VARCHAR" length="20" precision="0" nullable="true" jdbcType="12"/>
+      <column name="ValidStartTime" sqlType="TIME" length="8" precision="0" nullable="true" jdbcType="92"/>
+      <column name="CompanyId" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="FK_b2u0fy0dtcdb66s3rqup48g81" columns="CompanyId" ref-table="company" ref-schema="" ref-catalog="test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
-    <table name="call" schema="" catalog="test" type="TABLE">
+    <table name="callorder" schema="" catalog="test" type="TABLE">
       <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="CompanyId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
-      <column name="CallNo" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
-      <column name="Category" sqlType="VARCHAR" length="20" precision="0" nullable="false" jdbcType="12"/>
+      <column name="CallNo" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="Category" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
+      <column name="CompanyId" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="FK_duk2rqnctg9vp90b94qt13bgr" columns="CompanyId" ref-table="company" ref-schema="" ref-catalog="test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
     <table name="company" schema="" catalog="test" type="TABLE">
       <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="Name" sqlType="VARCHAR" length="100" precision="0" nullable="false" jdbcType="12"/>
-      <column name="Email" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
-      <column name="Phone" sqlType="VARCHAR" length="20" precision="0" nullable="false" jdbcType="12"/>
       <column name="Address" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
-      <column name="AppKey" sqlType="VARCHAR" length="65" precision="0" nullable="true" jdbcType="12"/>
-      <column name="BusinessCategory" sqlType="TEXT" length="65535" precision="0" nullable="true" jdbcType="-1"/>
-      <column name="ClientType" sqlType="VARCHAR" length="20" precision="0" nullable="false" jdbcType="12"/>
-      <column name="Cost" sqlType="DECIMAL" length="2" precision="2" nullable="true" jdbcType="3"/>
+      <column name="AppKey" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
+      <column name="BusinessCategory" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
+      <column name="ClientType" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
+      <column name="Cost" sqlType="DECIMAL" length="19" precision="2" nullable="true" jdbcType="3"/>
       <column name="CostTime" sqlType="DATETIME" length="19" precision="0" nullable="true" jdbcType="93"/>
+      <column name="Email" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
+      <column name="Name" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
+      <column name="Phone" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="FK_b2u0fy0dtcdb66s3rqup48g81" table="ad" schema="" catalog="test" columns="CompanyId"/>
+      <exported-key name="FK_duk2rqnctg9vp90b94qt13bgr" table="callorder" schema="" catalog="test" columns="CompanyId"/>
     </table>
     <table name="user" schema="" catalog="test" type="TABLE">
       <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="LoginId" sqlType="VARCHAR" length="60" precision="0" nullable="true" jdbcType="12"/>
-      <column name="LoginPwd" sqlType="VARCHAR" length="65" precision="0" nullable="false" jdbcType="12"/>
-      <column name="Email" sqlType="VARCHAR" length="255" precision="0" nullable="false" jdbcType="12"/>
-      <column name="Status" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
-      <column name="Role" sqlType="VARCHAR" length="10" precision="0" nullable="false" jdbcType="12"/>
+      <column name="CreateTime" sqlType="DATETIME" length="19" precision="0" nullable="true" jdbcType="93"/>
+      <column name="Email" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
       <column name="LastAccessTime" sqlType="DATETIME" length="19" precision="0" nullable="true" jdbcType="93"/>
-      <column name="CreateTime" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93"/>
+      <column name="LoginId" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
+      <column name="LoginPwd" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
+      <column name="Role" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
+      <column name="Status" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id"/>
-      <index name="LoginId_UNIQUE" unique="true" columns="LoginId"/>
     </table>
   </data-source>
 </component>
