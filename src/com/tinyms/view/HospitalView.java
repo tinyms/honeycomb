@@ -16,7 +16,7 @@ public class HospitalView {
 
     @Route(name = "index")
     public void index(HttpContext context) {
-        context.render("hospital/index.ftl");
+        context.render("hospital/master.ftl");
     }
 
     @Route(name = "/test/mutilanguage", paramPatterns = "\\w+-\\d+", paramExtractor = "\\w+")

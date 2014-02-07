@@ -1,6 +1,7 @@
 package com.tinyms.data;
 
 import com.tinyms.entity.Account;
+import com.tinyms.entity.User;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.hibernate.Session;
 import tornadoj.web.Utils;
@@ -18,21 +19,22 @@ public class AccountHelper {
     private final static Logger Log = Logger.getAnonymousLogger();
 
     public static void createRoot() {
-        Account root = new Account();
-        root.setLoginId("admin");
-        root.setLoginPwd(Utils.md5("admin"));
-        root.setEmail("admin@domain.com");
-        root.setCreateTime(Utils.current_timestamp());
-        root.setStatus(1);
-        root.setName("Administrator");
-        create(root);
+        if(!exists("admin")){
+            User root = new User();
+            root.setLoginId("admin");
+            root.setLoginPwd(Utils.md5("admin"));
+            root.setEmail("admin@domain.com");
+            root.setCreateTime(Utils.current_timestamp());
+            root.setStatus(1);
+            root.setRole("super");
+            create(root);
+        }
     }
 
     public static long login(String loginId, String loginPwd) {
         Long id = (Long) Orm.self()
-                .createQuery("select id from Account where loginId=:id and loginPwd=:pwd and status=1")
-                .setParameter("id", loginId).setParameter("pwd", Utils.md5(loginPwd))
-                .setMaxResults(1).uniqueResult();
+                .createQuery("select id from User where loginId=:id and loginPwd=:pwd and status=1")
+                .setParameter("id", loginId).setParameter("pwd", Utils.md5(loginPwd)).uniqueResult();
         if (id == null) {
             return 0;
         }
@@ -41,11 +43,10 @@ public class AccountHelper {
 
     public static Object col(String colName, long id) {
         return Orm.self()
-                .createQuery("select " + colName + " from Account where id=:id").setParameter("id", id)
-                .setMaxResults(1).uniqueResult();
+                .createQuery("select " + colName + " from User where id=:id").setParameter("id", id).uniqueResult();
     }
 
-    public static long create(final Account user) {
+    public static long create(final User user) {
         Long id = (Long) Orm.persist(new ISession() {
             @Override
             public Object doInSession(Session session) {
@@ -56,7 +57,7 @@ public class AccountHelper {
         return id.longValue();
     }
 
-    public static boolean update(final Account user) {
+    public static boolean update(final User user) {
         Boolean b = (Boolean) Orm.persist(new ISession() {
             @Override
             public Object doInSession(Session session) {
@@ -68,7 +69,7 @@ public class AccountHelper {
     }
 
     public static boolean del(long id) {
-        int num = Orm.self().createQuery("delete from Account where id = :id").setParameter("id", id).executeUpdate();
+        int num = Orm.self().createQuery("delete from User where id = :id").setParameter("id", id).executeUpdate();
         if (num > 0) {
             return true;
         }
@@ -76,7 +77,7 @@ public class AccountHelper {
     }
 
     public static boolean exists(String LoginID) {
-        Long num = (Long) Orm.self().createQuery("select count(id) from Account where loginId = :loginId")
+        Long num = (Long) Orm.self().createQuery("select count(id) from User where loginId = :loginId")
                 .setParameter("loginId", LoginID).uniqueResult();
         if (num.longValue() > 0) {
             return true;
@@ -91,9 +92,9 @@ public class AccountHelper {
      */
     public static PaginationResult list(int page, int limit) {
         PaginationResult r = new PaginationResult();
-        Long total = (Long) Orm.self().createQuery("select count(id) from Account").uniqueResult();
+        Long total = (Long) Orm.self().createQuery("select count(id) from User ").uniqueResult();
         r.setTotal(total.longValue());
-        List result = Orm.self().createQuery("select a from Account a")
+        List result = Orm.self().createQuery("select a from User a")
                 .setFetchSize((page - 1) * limit).setMaxResults(limit).list();
         List<Map<String, Object>> users = new ArrayList<Map<String, Object>>();
         for (Object row : result) {
@@ -114,9 +115,5 @@ public class AccountHelper {
         }
         r.setResult(users);
         return r;
-    }
-
-    public static void main(String[] args) {
-
     }
 }
